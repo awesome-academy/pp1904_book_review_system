@@ -1,10 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Rate;
 
 class User extends Authenticatable
 {
@@ -36,4 +37,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function rates()
+    {
+        return $this->hasMany(Rate::class, 'user_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'user_id');
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'user_id');
+    }
 }
