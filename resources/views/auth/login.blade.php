@@ -28,22 +28,41 @@
                 </div>
             </div>
             <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6 col-sm-12 col-xs-12">
+                 <form id="my_form_login" method="POST" action="{{ route('login') }}">
+                        @csrf
                 <div class="login-form">
                     <div class="single-login">
                         <label>Username or email<span>*</span></label>
-                        <input type="text" />
+                        <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="single-login">
                         <label>Passwords <span>*</span></label>
-                        <input type="text" />
+                         <input type="password" name="password" required autocomplete="current-password">
+
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                        
                     </div>
                     <div class="single-login single-login-2">
-                        <a href="#">login</a>
-                        <input id="rememberme" type="checkbox" name="rememberme" value="forever">
+                        <a href="javascript:{}" onclick="document.getElementById('my_form_login').submit();">Login</a>
+                        <input id="rememberme" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
                         <span>Remember me</span>
                     </div>
-                    <a href="#">Lost your password?</a>
+                    @if (Route::has('password.request'))
+                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                            {{ __('Forgot Your Password?') }}
+                        </a>
+                    @endif
                 </div>
+            </form>
             </div>
         </div>
     </div>
