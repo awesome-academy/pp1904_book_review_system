@@ -7,6 +7,7 @@ use App\Models\FavoriteDetail;
 use App\Models\Comment;
 use App\Models\Rate;
 use App\Models\Blog;
+use App\Models\Category;
 
 class Book extends Model
 {
@@ -33,8 +34,13 @@ class Book extends Model
         return $this->morphMany(Rate::class, 'post');
     }
 
-    public function book()
+    public function blogs()
     {
-        return $this->belongsTo(Book::class);
+        return $this->hasMany(Blog::class, 'book_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

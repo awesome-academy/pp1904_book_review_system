@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Rate;
+use App\Models\Blog;
 
 class User extends Authenticatable
 {
@@ -51,5 +52,10 @@ class User extends Authenticatable
     public function favorites()
     {
         return $this->hasMany(Favorite::class, 'user_id');
+    }
+
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class, 'user_id');
     }
 }
