@@ -19,4 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('blogs', 'BlogController');
-Route::get('blogs/category/{category_id}', 'BlogController@category');
+Route::get('blogs/category/{slug}', 'BlogController@category');

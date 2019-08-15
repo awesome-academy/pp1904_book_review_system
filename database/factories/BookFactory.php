@@ -11,7 +11,7 @@ $factory->define(Book::class, function (Faker $faker) {
     return [
         'title' => $faker->name(),
         'user_rate_total' => $faker->numberBetween($min = 100, $max = 200),
-        'slug' => $faker->slug(),
+        'slug' => $faker->unique()->slug(5),
         'category_id' => $faker->randomElement($category_id),
         'detail' => $faker->realText($maxNbChars = 200, $indexSize = 2),
         'image' => $faker->imageUrl($width = 640, $height = 480),

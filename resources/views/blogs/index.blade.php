@@ -52,7 +52,7 @@
                         </div>
                         <div class="blog-comment-readmore">
                             <div class="blog-readmore">
-                                <a href="#">Read more<i class="fa fa-long-arrow-right"></i></a>
+                                <a href="{{ action('BlogController@show', $blog->slug) }}">Read more<i class="fa fa-long-arrow-right"></i></a>
                             </div>
                             <div class="blog-com">
                                 <a href="#">3 comments</a>

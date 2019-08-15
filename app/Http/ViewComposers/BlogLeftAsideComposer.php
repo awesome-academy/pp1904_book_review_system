@@ -11,7 +11,7 @@ class BlogLeftAsideComposer
 
     public function __construct()
     {
-        $this->categories = Category::get(['id', 'name']);
+        $this->categories = Category::get(['slug', 'name']);
     }
 
     public function compose(View $view)

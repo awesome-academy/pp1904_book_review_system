@@ -18,7 +18,7 @@
             <ul>
                 @foreach ($categories as $category)
                 <li>
-                    <a href="/blogs/category/{{ $category->id }}">{{ $category->name }}</a>
+                    <a href="{{ action('BlogController@category', $category->slug) }}">{{ $category->name }}</a>
                 </li>
                 @endforeach
                 <!-- <li><a href="#">Creative (2)</a></li>
