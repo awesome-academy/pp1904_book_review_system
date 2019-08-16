@@ -49,9 +49,11 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $book = Book::whereSlug($slug)->firstOrFail();
+        
+        return view('books.show', compact('book'));
     }
 
     /**
