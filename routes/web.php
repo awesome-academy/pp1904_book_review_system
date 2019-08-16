@@ -11,12 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', 'BookController@index')->name('home');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('blogs', 'BlogController');
 Route::get('blogs/category/{slug}', 'BlogController@category');
+Route::resource('books', 'BookController');
