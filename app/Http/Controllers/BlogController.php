@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\User;
 
 class BlogController extends Controller
 {
@@ -50,11 +51,13 @@ class BlogController extends Controller
      */
     public function show($slug)
     {
-        $blogs = Blog::whereSlug($slug)->firstOrFail();
-        $user_name = User::whereId($blogs->user_id)->firstOrFail()->value('name');
-        $book_image = Book::whereId($blogs->book_id)->firstOrFail()->value('image');
+        $blog = Blog::whereSlug($slug)->firstOrFail();
+        $user_name = User::whereId($blog->user_id)->firstOrFail()->value('name');
+        $book_image = Book::whereId($blog->book_id)->firstOrFail()->value('image');
+        $comments = $blog->comments()->where('parent_id', false)->with('user')->get();
+        $count_comment = $blog->comments()->count();
 
-        return view('blogs.show', compact('blogs', 'user_name', 'book_image'));
+        return view('blogs.show', compact('blog', 'user_name', 'book_image', 'comments', 'count_comment'));
     }
 
     /**

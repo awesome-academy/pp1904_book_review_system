@@ -18,12 +18,12 @@
                             </div>
                             <div class="author-description">
                                 <p>Posted by:
-                                    <a href="#"><span>{{ $user_name }}</span>in</a>
+                                    <a href="#"><span>{{ $user_name }} </span>in</a>
                                     <a href="#">Fashion,</a>
                                     <a href="#">Fashion,</a>
                                     <a href="#">Fashion,</a>
                                 </p>
-                                <span>{{ $blogs->created_at->toFormattedDateString() }}</span>
+                                <span>{{ $blog->created_at->toFormattedDateString() }}</span>
                             </div>
                         </div>
                         <div class="author-right">
@@ -42,14 +42,14 @@
                     </div>
                     <div class="single-blog-content">
                         <div class="single-blog-title">
-                            <h3>{{ $blogs->title }}</h3>
+                            <h3>{{ $blog->title }}</h3>
                         </div>
                         <div class="blog-single-content">
-                            <p>{{ $blogs->content }}</p>
+                            <p>{{ $blog->content }}</p>
                         </div>
                     </div>
                     <div class="comment-tag">
-                        <p>03 Comments/Tags: Asian, t-shirt, teen </p>
+                        <p>{{ $count_comment }} Comments/Tags: Asian, t-shirt, teen </p>
                     </div>
                     <div class="sharing-post mt-20">
                         <div class="share-text">
@@ -66,94 +66,89 @@
                         </div>
                     </div>
                     <div class="comment-title-wrap mt-30">
-                        <h3>03 Comments</h3>
+                        <h3>{{ $count_comment }} Comments</h3>
                     </div>
                     <div class="comment-reply-wrap mt-50">
                         <ul>
+                            @foreach ($comments as $comment)
                             <li>
                                 <div class="public-comment">
                                     <div class="comment-img">
-                                        <a href="#"><img src="img/author/2.jpg" alt="man" /></a>
+                                        <a href="#"><img src="{{ asset('img/author/2.jpg') }}" alt="man" /></a>
                                     </div>
                                     <div class="public-text">
                                         <div class="single-comm-top">
-                                            <a href="#">Scott Salwolke</a>
-                                            <p>March 08, 2017 at 1:38 am <a href="#">Reply</a></p>
+                                            <a href="#">{{ $comment->user->name }}</a>
+                                            <p>{{ $comment->created_at->toDayDateTimeString() }}
+                                                <a data-toggle="collapse"
+                                                    href="#collapseExample-{{ $comment->id }}"
+                                                    aria-expanded="false"
+                                                aria-controls="collapseExample">Reply</a>
+                                            </p>
                                         </div>
-                                        <p>Thanks Marcus for the suggestions. I hadn't given much thought in how to craft my own blog entries in order to encourage responses. Yet, the goal is to generate followers and develop interactions so this makes perfect sense. I'll definitely incorporate some of these suggestions into my future writings.</p>
+                                        <p>{{ $comment->content }}</p>
                                     </div>
                                 </div>
                             </li>
+                            @php
+                                $comment_childs = App\Models\Comment::where([
+                                    ['parent_id', $comment->id],
+                                    ['post_type', 'App\Models\Blog'],
+                                    ['post_id', $comment->post_id]
+                                ])->with('user')->get();
+                            @endphp
+                            @foreach ($comment_childs as $comment_child)
                             <li>
                                 <div class="public-comment public-comment-2">
                                     <div class="comment-img">
-                                        <a href="#"><img src="img/author/3.jpg" alt="man" /></a>
+                                        <a href="#"><img src="{{ asset('img/author/2.jpg') }}" alt="man" /></a>
                                     </div>
                                     <div class="public-text">
                                         <div class="single-comm-top">
-                                            <a href="#">Scott Salwolke</a>
-                                            <p>March 08, 2017 at 1:38 am <a href="#">Reply</a></p>
+                                            <a href="#">{{ $comment_child->user->name }}</a>
+                                            <p>{{ $comment_child->created_at->toDayDateTimeString() }} </p>
                                         </div>
-                                        <p>Thanks Marcus for the suggestions. I hadn't given much thought in how to craft my own blog entries in order to encourage responses. Yet, the goal is to generate followers and develop interactions so this makes perfect sense. I'll definitely incorporate some of these suggestions into my future writings.</p>
+                                        <p>{{ $comment_child->content }}</p>
                                     </div>
                                 </div>
                             </li>
-                            <li>
-                                <div class="public-comment public-comment-2">
-                                    <div class="comment-img">
-                                        <a href="#"><img src="img/author/4.jpg" alt="man" /></a>
-                                    </div>
-                                    <div class="public-text">
-                                        <div class="single-comm-top">
-                                            <a href="#">Scott Salwolke</a>
-                                            <p>March 08, 2017 at 1:38 am <a href="#">Reply</a></p>
-                                        </div>
-                                        <p>Thanks Marcus for the suggestions. I hadn't given much thought in how to craft my own blog entries in order to encourage responses. Yet, the goal is to generate followers and develop interactions so this makes perfect sense. I'll definitely incorporate some of these suggestions into my future writings.</p>
+                            @endforeach
+                            <div class="collapse" id="collapseExample-{{ $comment->id }}">
+                                <div class="comment-input mt-40">
+                                    <div class="comment-input-textarea mb-30">
+                                        <form id="my_form_comment_{{ $comment->id }}" method="post" action="/comment">
+                                            @csrf
+                                            <input type="hidden" name="post_id" value="{{ $blog->id }}">
+                                            <input type="hidden" name="post_type" value="App\Models\Blog">
+                                            <input type="hidden" name="parent_id" value="{{ $comment->id }}">
+                                            <label>Comment</label>
+                                            <textarea name="content" cols="30" rows="10" placeholder="Write your comment here"></textarea>
+                                        </form>
                                     </div>
                                 </div>
-                            </li>
+                                <div class="single-post-button">
+                                    <a style="margin-bottom: 30px" href="javascript:{}" onclick="document.getElementById('my_form_comment_{{ $comment->id }}').submit();">Post Comment</a>
+                                </div>
+                            </div>
+                            @endforeach
                         </ul>
                     </div>
                     <div class="comment-title-wrap mt-30">
                         <h3>Leave a comment </h3>
                     </div>
                     <div class="comment-input mt-40">
-                        <p>We will not publish your email address. Required fields are marked*</p>
                         <div class="comment-input-textarea mb-30">
-                            <form action="#">
+                            <form id="my_form_comment" method="post" action="/comment">
+                                @csrf
+                                <input type="hidden" name="post_id" value="{{ $blog->id }}">
+                                <input type="hidden" name="post_type" value="App\Models\Blog">
                                 <label>Comment</label>
-                                <textarea name="massage" cols="30" rows="10" placeholder="Write your comment here"></textarea>
+                                <textarea name="content" cols="30" rows="10" placeholder="Write your comment here"></textarea>
                             </form>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="single-comment-input mb-30">
-                                    <form action="#">
-                                        <label>Name*</label>
-                                        <input type="text" placeholder="Name" />
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="single-comment-input mb-30">
-                                    <form action="#">
-                                        <label>Email*</label>
-                                        <input type="text" placeholder="Email" />
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="single-comment-input mb-30">
-                                    <form action="#">
-                                        <label>Web</label>
-                                        <input type="text" placeholder="Put your web address" />
-                                    </form>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="single-post-button">
-                        <a href="#">Post Comment</a>
+                        <a href="javascript:{}" onclick="document.getElementById('my_form_comment').submit();">Post Comment</a>
                     </div>
                 </div>
             </div>
