@@ -98,7 +98,7 @@
                                         </div>
                                         <div class="add-to-link">
                                             <ul>
-                                                <li><a href="product-details.html" title="Details"><i class="fa fa-external-link"></i></a></li>
+                                                <li><a href="{{ action('BookController@show', $book->slug) }}" title="Details"><i class="fa fa-external-link"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>

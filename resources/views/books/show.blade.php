@@ -15,17 +15,17 @@
                         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                             <div class="flexslider">
                                 <ul class="slides">
-                                    <li data-thumb="img/thum-2/1.jpg">
-                                        <img src="img/flex/1.jpg" alt="woman" />
+                                      <li data-thumb="{{ $book->image }}">
+                                        <img src="{{ $book->image }}" alt="woman" />
                                     </li>
-                                    <li data-thumb="img/thum-2/4.jpg">
-                                        <img src="img/flex/5.jpg" alt="woman" />
+                                    <li data-thumb="{{ $book->image }}">
+                                        <img src="{{ $book->image }}" alt="woman" />
                                     </li>
-                                    <li data-thumb="img/thum-2/2.jpg">
-                                        <img src="img/flex/2.jpg" alt="woman" />
+                                    <li data-thumb="{{ $book->image }}">
+                                        <img src="{{ $book->image }}" alt="woman" />
                                     </li>
-                                    <li data-thumb="img/thum-2/5.jpg">
-                                        <img src="img/flex/5.jpg" alt="woman" />
+                                    <li data-thumb="{{ $book->image }}">
+                                        <img src="{{ $book->image }}" alt="woman" />
                                     </li>
                                 </ul>
                             </div>
@@ -33,7 +33,7 @@
                         <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
                             <div class="product-info-main">
                                 <div class="page-title">
-                                    <h1>Savvy Shoulder Tote</h1>
+                                    <h1>{{ $book->title }}</h1>
                                 </div>
                                 <div class="product-info-stock-sku">
                                     <span>In stock</span>
@@ -55,28 +55,14 @@
                                         <a href="#" class="view">Add Your Review</a>
                                     </div>
                                 </div>
-                                <div class="product-info-price">
-                                    <div class="price-final">
-                                        <span>$34.00</span>
-                                        <span class="old-price">$40.00</span>
-                                    </div>
-                                </div>
-                                <div class="product-add-form">
-                                    <form action="#">
-                                        <div class="quality-button">
-                                            <input class="qty" type="number" value="1">
-                                        </div>
-                                        <a href="#">Add to cart</a>
-                                    </form>
-                                </div>
                                 <div class="product-social-links">
                                     <div class="product-addto-links">
                                         <a href="#"><i class="fa fa-heart"></i></a>
-                                        <a href="#"><i class="fa fa-pie-chart"></i></a>
+                                        
                                         <a href="#"><i class="fa fa-envelope-o"></i></a>
                                     </div>
                                     <div class="product-addto-links-text">
-                                        <p>Powerwalking to the gym or strolling to the local coffeehouse, the Savvy Shoulder Tote lets you stash your essentials in sporty style! A top-loading compartment provides quick and easy access to larger items, while zippered pockets on the front and side hold cash, credit cards and phone.</p>
+                                        <p>{{ $book->detail }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -233,7 +219,7 @@
                         <div class="product-wrapper">
                             <div class="product-img">
                                 <a href="#">
-                                    <img src="img/product/1.jpg" alt="book" class="primary" />
+                                    <img src="{{ asset('img/product/1.jpg') }}" alt="book" class="primary" />
                                 </a>
                                 <div class="quick-view">
                                     <a class="action-view" href="#" data-target="#productModal" data-toggle="modal" title="Quick View">
@@ -280,7 +266,7 @@
                         <div class="product-wrapper">
                             <div class="product-img">
                                 <a href="#">
-                                    <img src="img/product/3.jpg" alt="book" class="primary" />
+                                    <img src="{{ asset('img/product/3.jpg') }}" alt="book" class="primary" />
                                 </a>
                                 <div class="quick-view">
                                     <a class="action-view" href="#" data-target="#productModal" data-toggle="modal" title="Quick View">
@@ -326,7 +312,7 @@
                         <div class="product-wrapper">
                             <div class="product-img">
                                 <a href="#">
-                                    <img src="img/product/5.jpg" alt="book" class="primary" />
+                                    <img src="{{ asset('img/product/5.jpg') }}" alt="book" class="primary" />
                                 </a>
                                 <div class="quick-view">
                                     <a class="action-view" href="#" data-target="#productModal" data-toggle="modal" title="Quick View">
@@ -372,7 +358,7 @@
                         <div class="product-wrapper">
                             <div class="product-img">
                                 <a href="#">
-                                    <img src="img/product/7.jpg" alt="book" class="primary" />
+                                    <img src="{{ asset('img/product/7.jpg') }}" alt="book" class="primary" />
                                 </a>
                                 <div class="quick-view">
                                     <a class="action-view" href="#" data-target="#productModal" data-toggle="modal" title="Quick View">
@@ -438,23 +424,23 @@
                         <div class="modal-tab">
                             <div class="product-details-large tab-content">
                                 <div class="tab-pane active" id="image-1">
-                                    <img src="img/product/quickview-l4.jpg" alt="" />
+                                    <img src="{{ asset('img/product/quickview-l4.jpg') }}" alt="" />
                                 </div>
                                 <div class="tab-pane" id="image-2">
-                                    <img src="img/product/quickview-l2.jpg" alt="" />
+                                    <img src="{{ asset('img/product/quickview-l2.jpg') }}" alt="" />
                                 </div>
                                 <div class="tab-pane" id="image-3">
-                                    <img src="img/product/quickview-l3.jpg" alt="" />
+                                    <img src="{{ asset('img/product/quickview-l3.jpg') }}" alt="" />
                                 </div>
                                 <div class="tab-pane" id="image-4">
-                                    <img src="img/product/quickview-l5.jpg" alt="" />
+                                    <img src="{{ asset('img/product/quickview-l5.jpg') }}" alt="" />
                                 </div>
                             </div>
                             <div class="product-details-small quickview-active owl-carousel">
                                 <a class="active" href="#image-1"><img src="img/product/quickview-s4.jpg" alt="" /></a>
-                                <a href="#image-2"><img src="img/product/quickview-s2.jpg" alt="" /></a>
-                                <a href="#image-3"><img src="img/product/quickview-s3.jpg" alt="" /></a>
-                                <a href="#image-4"><img src="img/product/quickview-s5.jpg" alt="" /></a>
+                                <a href="#image-2"><img src="{{ asset('img/product/quickview-s2.jpg') }}" alt="" /></a>
+                                <a href="#image-3"><img src="{{ asset('img/product/quickview-s3.jpg') }}" alt="" /></a>
+                                <a href="#image-4"><img src="{{ asset('img/product/quickview-s5.jpg') }}" alt="" /></a>
                             </div>
                         </div>
                     </div>
