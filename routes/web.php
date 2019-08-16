@@ -19,3 +19,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('blogs', 'BlogController');
 Route::get('blogs/category/{slug}', 'BlogController@category');
 Route::resource('books', 'BookController');
+Route::post('/comment', 'CommentController@newComment');
