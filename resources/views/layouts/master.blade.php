@@ -30,7 +30,7 @@
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <!-- responsive css -->
         <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
-        <!-- modernizr css -->
+        <link rel="stylesheet" href="{{ asset('css/star-rating.min.css') }}">
     </head>
     <body>
         <!-- header-area-start -->
@@ -68,6 +68,8 @@
         <script src="{{ asset('js/plugins.js') }}"></script>
         <!-- main js -->
         <script src="{{ asset('js/main.js') }}"></script>
+        <script src="{{ asset('js/star-rating.min.js') }}"></script>
+        @yield('rate')
     </body>
 
 <!-- Mirrored from d29u17ylf1ylz9.cloudfront.net/koparion-v1/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 28 Aug 2018 23:31:33 GMT -->

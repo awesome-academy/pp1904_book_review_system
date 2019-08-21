@@ -23,4 +23,16 @@ class Rate extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeRate($query, $request, $user_id)
+    {
+        return $query->updateOrCreate(
+            [
+                'post_id' => $request->get('post_id'),
+                'post_type' => $request->get('post_type'),
+                'user_id' => $user_id
+            ],
+            ['rate_point' => $request->get('rating')]
+        );
+    }
 }

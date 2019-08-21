@@ -45,4 +45,16 @@ class Blog extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeUpdateRateAverage($query, $request)
+    {
+        $blog = Blog::whereId($request->get('post_id'))->firstOrFail();
+        $rate_average = $blog->rates()->avg('rate_point');
+        $user_rate_total = $blog->rates()->count();
+
+        return $query->whereId($request->get('post_id'))->update([
+            'rate_average' => isset($rate_average) ? $rate_average : 0,
+            'user_rate_total' => isset($user_rate_total) ? $user_rate_total : 0,
+        ]);
+    }
 }
