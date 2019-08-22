@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\RateFormRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Blog;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Rate;
 
 class BlogController extends Controller
 {
@@ -101,5 +104,14 @@ class BlogController extends Controller
         $blogs = Blog::with(['user', 'book'])->whereIn('book_id', $book_id)->paginate(5);
 
         return view('blogs.index', compact('blogs'));
+    }
+
+    public function rate(RateFormRequest $request)
+    {
+        $user_id = Auth::user()->id;
+        Rate::rate($request, $user_id);
+        Blog::updateRateAverage($request);
+
+        return redirect()->back()->with('status', 'Your comment has been created!');
     }
 }
