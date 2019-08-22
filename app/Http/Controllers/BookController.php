@@ -52,8 +52,10 @@ class BookController extends Controller
     public function show($slug)
     {
         $book = Book::whereSlug($slug)->firstOrFail();
-        
-        return view('books.show', compact('book'));
+        $comments = $book->comments()->where('parent_id', false)->with('user')->get();
+        $count_comment = $book->comments()->count();
+
+        return view('books.show', compact('book', 'comments', 'count_comment'));
     }
 
     /**
