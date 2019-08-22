@@ -21,3 +21,4 @@ Route::get('blogs/category/{slug}', 'BlogController@category');
 Route::resource('books', 'BookController');
 Route::post('/comment', 'CommentController@newComment');
 Route::post('/rate', 'BlogController@rate');
+Route::post('/blogs/search', 'BlogController@search');

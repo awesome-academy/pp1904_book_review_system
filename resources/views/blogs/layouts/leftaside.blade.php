@@ -4,9 +4,12 @@
             <h3>Search</h3>
         </div>
         <div class="side-form">
-            <form action="#">
-                <input type="text" placeholder="Search...." />
-                <a href="#"><i class="fa fa-search"></i></a>
+            <form id="search-form" action="/blogs/search" method="post">
+                @csrf
+                <input type="text" name="search" placeholder="Search...." />
+                <a href="javascript:{}" onclick="document.getElementById('search-form').submit();">
+                    <i class="fa fa-search"></i>
+                </a>
             </form>
         </div>
     </div>
@@ -21,13 +24,6 @@
                     <a href="{{ action('BlogController@category', $category->slug) }}">{{ $category->name }}</a>
                 </li>
                 @endforeach
-                <!-- <li><a href="#">Creative (2)</a></li>
-                <li><a href="#">Fashion (1)</a></li>
-                <li><a href="#">Image (1) </a></li>
-                <li><a href="#">Photography (1) </a></li>
-                <li><a href="#">Travel (4) </a></li>
-                <li><a href="#">Videos (2) </a></li>
-                <li><a href="#">Economic (2) </a></li> -->
             </ul>
         </div>
     </div>

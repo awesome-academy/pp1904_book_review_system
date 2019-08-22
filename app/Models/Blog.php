@@ -57,4 +57,9 @@ class Blog extends Model
             'user_rate_total' => isset($user_rate_total) ? $user_rate_total : 0,
         ]);
     }
+
+    public function scopeBlogSearch($query, $request)
+    {
+        return $query->where('title', 'like', "%".$request->get('search')."%")->with(['user', 'book']);
+    }
 }
