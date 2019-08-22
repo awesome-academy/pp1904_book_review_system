@@ -114,4 +114,11 @@ class BlogController extends Controller
 
         return redirect()->back()->with('status', 'Your comment has been created!');
     }
+
+    public function search(Request $request)
+    {
+        $blogs = Blog::blogSearch($request)->paginate(5);
+
+        return view('blogs.index', compact('blogs'));
+    }
 }
