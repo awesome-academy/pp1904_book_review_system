@@ -22,3 +22,12 @@ Route::resource('books', 'BookController');
 Route::post('/comment', 'CommentController@newComment');
 Route::post('/rate', 'BlogController@rate');
 Route::post('/blogs/search', 'BlogController@search');
+
+Route::group([
+    'prefix' => 'manager',
+    'namespace' => 'Manager',
+    'middleware' => 'manager',
+], function () {
+    Route::get('/', 'HomeController@index');
+
+});
