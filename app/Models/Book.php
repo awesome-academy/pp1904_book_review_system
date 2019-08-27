@@ -8,6 +8,8 @@ use App\Models\Comment;
 use App\Models\Rate;
 use App\Models\Blog;
 use App\Models\Category;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Book extends Model
 {
@@ -16,7 +18,7 @@ class Book extends Model
         'rate_average',
         'user_rate_total',
         'slug',
-        'type',
+        'category_id',
         'detail',
         'image',
         'public_date',
@@ -42,5 +44,19 @@ class Book extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function scopeCreateBook($query, $request)
+    {
+        return $query->create([
+            'category_id' => $request->get('category_id'),
+            'title' => $request->get('title'),
+            'slug' => Str::slug($request->get('title'), '-'),
+            'detail' => $request->get('detail'),
+            'image' => $request->get('image'),
+            'public_date' => Carbon::parse($request->get('public_date'))->format('Y-m-d'),
+            'author' => $request->get('author'),
+            'publishing_company' => $request->get('publishing_company'),
+        ]);
     }
 }
