@@ -67,7 +67,7 @@
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         <h4 class="modal-title">How would you rate this blog?</h4>
                                     </div>
-                                    <form id="demo" action="/rate" method="post">
+                                    <form id="demo" action="/blogs/rate" method="post">
                                         @csrf
                                         <input type="hidden" name="post_id" value="{{ $blog->id }}">
                                         <input type="hidden" name="post_type" value="App\Models\Blog">

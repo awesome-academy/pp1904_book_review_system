@@ -24,6 +24,7 @@ class Book extends Model
         'public_date',
         'author',
         'publishing_company',
+        'rate',
     ];
 
     public function comments()
@@ -46,6 +47,18 @@ class Book extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function scopeUpdateRateAverage($query, $request)
+    {
+        $book = Book::whereId($request->get('post_id'))->firstOrFail();
+        $rate_average = $book->rates()->avg('rate_point');
+        $user_rate_total = $book->rates()->count();
+
+        return $query->whereId($request->get('post_id'))->update([
+            'rate_average' => isset($rate_average) ? $rate_average : 0,
+            'user_rate_total' => isset($user_rate_total) ? $user_rate_total : 0,
+        ]);
+    }
+    
     public function scopeCreateBook($query, $request)
     {
         return $query->create([
