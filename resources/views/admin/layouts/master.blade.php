@@ -18,6 +18,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <title> @yield('title') </title>
         <meta name="description" content="Latest updates and statistic charts">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <!--begin::Web font -->
         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
         <script>
@@ -34,14 +35,11 @@ License: You must have a valid license purchased only from themeforest(the above
         <!--begin::Base Styles -->
         <!--begin::Page Vendors -->
         <link href="{{ asset('admin/vendors/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
-        <!--RTL version:<link href="../../../assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
         <link href="{{ asset('admin/vendors/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css" />
-        <!--RTL version:<link href="assets/vendors/custom/fullcalendar/fullcalendar.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
         <!--end::Page Vendors -->
         <link href="{{ asset('admin/vendors/base/vendors.bundle.css')}}" rel="stylesheet" type="text/css" />
-        <!--RTL version:<link href="assets/vendors/base/vendors.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
         <link href="{{ asset('admin/demo/default/base/style.bundle.css')}}" rel="stylesheet" type="text/css" />
-        <!--RTL version:<link href="assets/demo/default/base/style.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
+        <link rel="stylesheet" href="{{ asset('css/croppie.css')}}">
         <!--end::Base Styles -->
         <link rel="shortcut icon" href="{{ asset('admin/demo/default/media/img/logo/favicon.ico')}}" />
     </head>
@@ -83,19 +81,19 @@ License: You must have a valid license purchased only from themeforest(the above
         <script src="{{ asset('admin/demo/default/base/scripts.bundle.js')}}" type="text/javascript"></script>
         <!--end::Base Scripts -->
         <!--begin::Page Vendors -->
-        <script src="{{ asset('admin/vendors/custom/fullcalendar/fullcalendar.bundle.js')}}" type="text/javascript"></script>
         <script src="{{asset('admin/vendors/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
         <!--end::Page Vendors -->
         <!--begin::Page Resources -->
-        <script src="{{ asset('admin/demo/default/custom/crud/forms/widgets/form-repeater.js') }}" type="text/javascript"></script>
         <script src="{{ asset('admin/demo/default/custom/header/actions.js')}}" type="text/javascript"></script>
-        <script src="{{ asset('admin/demo/default/custom/crud/datatables/extensions/buttons.js')}}" type="text/javascript"></script>
-        <script src="{{ asset('admin/demo/default/custom/crud/datatables/extensions/select.js')}}" type="text/javascript"></script>
-         <script src="{{ asset('admin/demo/default/custom/components/base/sweetalert2.js')}}" type="text/javascript"></script>
+        <script src="{{ asset('admin/demo/default/custom/components/base/sweetalert2.js')}}" type="text/javascript"></script>
+        <script src="{{ asset('admin/demo/default/custom/crud/datatables/basic/basic.js')}}" type="text/javascript"></script>
+        <script src="{{ asset('admin/demo/default/custom/crud/forms/widgets/bootstrap-datepicker.js') }}" type="text/javascript"></script>
         <!--end::Page Resources -->
         <!--begin::Page Snippets -->
         <script src="{{ asset('admin/app/js/dashboard.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('js/croppie.js')}}"></script>
         <!--end::Page Snippets -->
+        @yield('script')
     </body>
     <!-- end::Body -->
 </html>

@@ -29,5 +29,6 @@ Route::group([
     'middleware' => 'manager',
 ], function () {
     Route::get('/', 'HomeController@index');
-
+    Route::resource('books', 'BookController');
+    Route::post('/image', 'BookController@storeImage');
 });
