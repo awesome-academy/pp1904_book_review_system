@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\RateFormRequest;
 use App\Models\Blog;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Rate;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
@@ -90,5 +93,13 @@ class BookController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function rate(RateFormRequest $request)
+    {
+        $user_id = Auth::user()->id;
+        Rate::rate($request, $user_id);
+        Book::updateRateAverage($request);
+
+        return redirect()->back()->with('status', 'Your comment has been created!');
     }
 }
