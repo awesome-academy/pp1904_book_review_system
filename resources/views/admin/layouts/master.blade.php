@@ -86,8 +86,9 @@ License: You must have a valid license purchased only from themeforest(the above
         <!--begin::Page Resources -->
         <script src="{{ asset('admin/demo/default/custom/header/actions.js')}}" type="text/javascript"></script>
         <script src="{{ asset('admin/demo/default/custom/components/base/sweetalert2.js')}}" type="text/javascript"></script>
-        <script src="{{ asset('admin/demo/default/custom/crud/datatables/basic/basic.js')}}" type="text/javascript"></script>
+        <script src="{{ asset('admin/demo/default/custom/crud/datatables/extensions/select.js')}}" type="text/javascript"></script>
         <script src="{{ asset('admin/demo/default/custom/crud/forms/widgets/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('admin/demo/default/custom/crud/forms/widgets/autosize.js')}}" type="text/javascript"></script>
         <!--end::Page Resources -->
         <!--begin::Page Snippets -->
         <script src="{{ asset('admin/app/js/dashboard.js') }}" type="text/javascript"></script>

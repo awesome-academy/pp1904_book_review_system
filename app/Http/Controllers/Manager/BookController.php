@@ -17,7 +17,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        return view('admin.books.index');
+        $books = Book::all();
+
+        return view('admin.books.index', compact('books'));
     }
 
     /**
@@ -61,9 +63,11 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        $book = Book::whereSlug($slug)->firstOrFail();
+
+        return view('admin.books.edit', compact('book'));
     }
 
     /**
@@ -73,9 +77,11 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        Book::updateBook($request, $slug);
+
+        return redirect('/manager/books');
     }
 
     /**
@@ -84,9 +90,12 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $book = Book::whereSlug($slug);
+        $book->delete();
+
+        return redirect('/manager/books');
     }
 
     public function storeImage(Request $request)

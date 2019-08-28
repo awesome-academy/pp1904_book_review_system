@@ -43,19 +43,20 @@
         </div>
     </div>
     <!--begin::Form-->
-    <form class="m-form m-form--fit m-form--label-align-right" method="post" action="/manager/books">
+    <form class="m-form m-form--fit m-form--label-align-right" method="post" action="/manager/books/{{$book->slug}}">
+        @method('PUT')
         @csrf
         <div class="m-portlet__body">
             <div class="form-group m-form__group row">
                 <label class="col-form-label col-lg-3 col-sm-12" for="exampleInputEmail1">Title</label>
                 <div class="col-lg-6 col-md-9 col-sm-12">
-                    <input type="text" name="title" class="form-control m-input" id="exampleInputEmail1">
+                    <input type="text" name="title" value="{{$book->title}}" class="form-control m-input" id="exampleInputEmail1">
                 </div>
             </div>
             <div class="form-group m-form__group row">
                 <label class="col-form-label col-lg-3 col-sm-12" for="exampleInputPassword1">Author</label>
                 <div class="col-lg-6 col-md-9 col-sm-12">
-                    <input type="text" name="author" class="form-control m-input" id="exampleInputPassword1" >
+                    <input type="text" name="author" value="{{$book->author}}" class="form-control m-input" id="exampleInputPassword1" >
                 </div>
             </div>
             <div class="form-group m-form__group row">
@@ -63,7 +64,7 @@
                 <div class="col-lg-6 col-md-9 col-sm-12">
                     <div class="input-group date">
                         <input type="text" class="form-control m-input" readonly="" id="m_datepicker_3"
-                        name="public_date">
+                        name="public_date" value="{{$book->public_date}}">
                         <div class="input-group-append">
                             <span class="input-group-text">
                                 <i class="la la-calendar"></i>
@@ -99,13 +100,13 @@
             <div class="form-group m-form__group row">
                 <label class="col-form-label col-lg-3 col-sm-12">Detail</label>
                 <div class="col-lg-6 col-md-9 col-sm-12">
-                    <textarea name="details" class="form-control m-input" id="m_autosize_1" rows="3"></textarea>
+                    <textarea name="detail" class="form-control" id="m_autosize_2" rows="3">{{ $book->detail }}</textarea>
                 </div>
             </div>
             <div class="form-group m-form__group row">
                 <label class="col-form-label col-lg-3 col-sm-12">Image</label>
                 <div class="input-group col-lg-6 col-md-9 col-sm-12">
-                    <input name="image" id="preview-name-image" type="text" class="form-control" readonly>
+                    <input name="image" value="{{ $book->image }}" id="preview-name-image" type="text" class="form-control" readonly>
                     <div class="input-group-append">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#m_modal_4">Upload</button>
                     </div>
@@ -116,8 +117,8 @@
             <div class="m-form__actions">
                 <div class="row">
                     <div class="col-lg-9 ml-lg-auto">
-                        <button type="submit" class="btn btn-success"> Submit</button>
-                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                        <button type="submit" class="btn btn-success"> Save</button>
+                        <button type="reset" class="btn btn-secondary"> Cancel</button>
                     </div>
                 </div>
             </div>
