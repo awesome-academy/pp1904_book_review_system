@@ -10,9 +10,12 @@ use App\Models\Blog;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'title',
         'rate_average',
@@ -58,10 +61,24 @@ class Book extends Model
             'user_rate_total' => isset($user_rate_total) ? $user_rate_total : 0,
         ]);
     }
-    
+
     public function scopeCreateBook($query, $request)
     {
         return $query->create([
+            'category_id' => $request->get('category_id'),
+            'title' => $request->get('title'),
+            'slug' => Str::slug($request->get('title'), '-'),
+            'detail' => $request->get('detail'),
+            'image' => $request->get('image'),
+            'public_date' => Carbon::parse($request->get('public_date'))->format('Y-m-d'),
+            'author' => $request->get('author'),
+            'publishing_company' => $request->get('publishing_company'),
+        ]);
+    }
+
+    public function scopeUpdateBook($query, $request, $slug)
+    {
+        return $query->whereSlug($slug)->update([
             'category_id' => $request->get('category_id'),
             'title' => $request->get('title'),
             'slug' => Str::slug($request->get('title'), '-'),
