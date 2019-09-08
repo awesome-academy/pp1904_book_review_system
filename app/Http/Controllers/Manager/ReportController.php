@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Http\Controllers\Manager;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\ReportDetail;
+use App\Models\Comment;
+use Illuminate\Support\Facades\DB;
+
+class ReportController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $reports = ReportDetail::whereNull('deleted_at')
+                ->groupBy('comment_id')
+                ->select('*', DB::raw('count(comment_id) as total'))
+                ->with(['report', 'user', 'comment'])->get();
+
+        return view('admin.reports.index', compact('reports'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($comment_id)
+    {
+        $reports = ReportDetail::whereCommentId($comment_id)->with(['report', 'user', 'comment'])->get();
+
+        return view('admin.reports.show', compact('reports'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($slug)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $slug)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($comment_id)
+    {
+        $comment = Comment::whereId($comment_id);
+        $comment->delete();
+        $reports = ReportDetail::whereCommentId($comment_id);
+        $reports->delete();
+
+        return redirect('/manager/reports');
+    }
+
+}

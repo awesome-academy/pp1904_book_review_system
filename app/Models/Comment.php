@@ -4,9 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\ReportDetail;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Comment extends Model
 {
+    use SoftDeletes;
+
     public $timestamps = true;
 
     protected $fillable = [
@@ -25,6 +30,11 @@ class Comment extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function reportDetails()
+    {
+        return $this->hasMany(ReportDetail::class, 'comment_id');
     }
 
     public function scopeCreateComment($query, $request, $user_id)

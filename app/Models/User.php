@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Rate;
 use App\Models\Blog;
+use App\Models\ReportDetail;
 
 class User extends Authenticatable
 {
@@ -57,5 +58,10 @@ class User extends Authenticatable
     public function blogs()
     {
         return $this->hasMany(Blog::class, 'user_id');
+    }
+
+    public function reportDetails()
+    {
+        return $this->hasMany(ReportDetail::class, 'user_id');
     }
 }

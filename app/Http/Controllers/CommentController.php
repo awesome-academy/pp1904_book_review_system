@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentFormRequest;
 use App\Models\Comment;
+use App\Models\ReportDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +30,14 @@ class CommentController extends Controller
     {
         $comment = Comment::whereId($request->get('comment_id'));
         $comment->delete();
+
+        return redirect()->back();
+    }
+
+    public function reportComment(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        ReportDetail::createReport($request, $user_id);
 
         return redirect()->back();
     }

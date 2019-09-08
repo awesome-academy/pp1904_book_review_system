@@ -16,7 +16,7 @@ class Favorite extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function favorite()
+    public function favoriteDetail()
     {
         return $this->hasOne(FavoriteDetail::class, 'favorite_id');
     }

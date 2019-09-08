@@ -1,6 +1,6 @@
 var DatatablesExtensionsKeytable = {
     init: function() {
-        var e;
+        var e, f;
         $("#m_table_1").DataTable({
             responsive: !0,
             select: !0,
@@ -77,6 +77,17 @@ var DatatablesExtensionsKeytable = {
                 title: "Actions",
                 orderable: !1,
             }]
+        })), (f = $("#m_table_report").DataTable({
+            responsive: !0,
+            order: [[ 4, 'desc']],
+            bAutoWidth: false,
+            aoColumns: [
+                { "sWidth": "15%" },
+                { "sWidth": "20%" },
+                { "sWidth": "40%" },
+                { "sWidth": "20%" },
+                { "sWidth": "5%" }
+            ]
         }))
     }
 };
