@@ -552,7 +552,7 @@
 </div>
 <!-- Modal end -->
 @endsection
-@section('rate')
+@section('script')
 <script>
 $("#input-21b").rating({
     showClear: false,

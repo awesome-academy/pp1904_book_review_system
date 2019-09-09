@@ -50,6 +50,11 @@ class Book extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function favoriteDetail()
+    {
+        return $this->belongsTo(FavoriteDetail::class, 'book_id');
+    }
+
     public function scopeUpdateRateAverage($query, $request)
     {
         $book = Book::whereId($request->get('post_id'))->firstOrFail();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\RateFormRequest;
+use App\Http\Requests\CreateBlogFormRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Blog;
 use App\Models\Book;
@@ -32,7 +33,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        //
+        return view('blogs.create');
     }
 
     /**
@@ -41,9 +42,12 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateBlogFormRequest $request)
     {
-        //
+        $user_id = Auth::user()->id;
+        $blog = Blog::createBlog($request, $user_id);
+
+        return redirect()->back()->with('status', 'Your blog has been created!');
     }
 
     /**
@@ -56,11 +60,10 @@ class BlogController extends Controller
     {
         $blog = Blog::whereSlug($slug)->firstOrFail();
         $user_name = User::whereId($blog->user_id)->firstOrFail()->value('name');
-        $book_image = Book::whereId($blog->book_id)->firstOrFail()->value('image');
         $comments = $blog->comments()->where('parent_id', false)->with('user')->get();
         $count_comment = $blog->comments()->count();
 
-        return view('blogs.show', compact('blog', 'user_name', 'book_image', 'comments', 'count_comment'));
+        return view('blogs.show', compact('blog', 'user_name', 'comments', 'count_comment'));
     }
 
     /**

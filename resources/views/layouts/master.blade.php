@@ -31,6 +31,7 @@
         <!-- responsive css -->
         <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
         <link rel="stylesheet" href="{{ asset('css/star-rating.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/simplemde.min.css') }}">
     </head>
     <body>
         <!-- header-area-start -->
@@ -69,7 +70,9 @@
         <!-- main js -->
         <script src="{{ asset('js/main.js') }}"></script>
         <script src="{{ asset('js/star-rating.min.js') }}"></script>
-        @yield('rate')
+        <script src="{{ asset('js/simplemde.min.js') }}"></script>
+        <script src="{{ asset('js/marked.min.js') }}"></script>
+        @yield('script')
     </body>
 
 <!-- Mirrored from d29u17ylf1ylz9.cloudfront.net/koparion-v1/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 28 Aug 2018 23:31:33 GMT -->

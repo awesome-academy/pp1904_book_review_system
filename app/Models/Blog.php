@@ -8,23 +8,20 @@ use App\Models\Comment;
 use App\Models\Rate;
 use App\Models\Blog;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class Blog extends Model
 {
     protected $fillable = [
         'user_id',
-        'book_id',
+        'image',
         'slug',
         'title',
         'rate_average',
         'user_rate_total',
         'content',
+        'short_desc',
     ];
-
-    public function favoriteDetail()
-    {
-        return $this->belongsTo(FavoriteDetail::class, 'book_id');
-    }
 
     public function comments()
     {
@@ -61,5 +58,23 @@ class Blog extends Model
     public function scopeBlogSearch($query, $request)
     {
         return $query->where('title', 'like', "%".$request->get('search')."%")->with(['user', 'book']);
+    }
+
+    public function scopeCreateBlog($query, $request, $user_id)
+    {
+        $image = $request->file('image');
+        $name = Str::slug($request->get('title'), '-').'_'.time();
+        $folder = 'img/blog/';
+        $path = $folder . $name. '.' . $image->getClientOriginalExtension();
+        $request->file('image')->move($folder, $name.'.'.$image->getClientOriginalExtension());
+
+        return $query->create([
+            'user_id' => $user_id,
+            'slug' => Str::slug($request->get('title'), '-'),
+            'title' => $request->get('title'),
+            'content' => $request->get('content'),
+            'image' => $path,
+            'short_desc' => $request->get('short_desc'),
+        ]);
     }
 }
