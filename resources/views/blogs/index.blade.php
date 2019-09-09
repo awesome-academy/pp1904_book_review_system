@@ -40,22 +40,19 @@
                             </div>
                         </div>
                         <div class="blog-img mb-30">
-                            <a href="#"><img src="{{ $blog->book->image }}" alt="blog" /></a>
+                            <a href="#"><img src="{{ $blog->image }}" alt="blog" /></a>
                         </div>
                         <div class="single-blog-content">
                             <div class="single-blog-title">
                                 <h3><a href="#">{{ $blog->title }}</a></h3>
                             </div>
                             <div class="blog-single-content">
-                                <p>{{ $blog->content }}</p>
+                                <p>{{ $blog->short_desc }}</p>
                             </div>
                         </div>
                         <div class="blog-comment-readmore">
                             <div class="blog-readmore">
                                 <a href="{{ action('BlogController@show', $blog->slug) }}">Read more<i class="fa fa-long-arrow-right"></i></a>
-                            </div>
-                            <div class="blog-com">
-                                <a href="#">3 comments</a>
                             </div>
                         </div>
                     </div>

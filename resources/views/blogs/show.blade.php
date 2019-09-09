@@ -1,3 +1,4 @@
+
 @extends('layouts.master')
 @section('title', 'Home')
 @section('content')
@@ -38,19 +39,19 @@
                         </div>
                     </div>
                     <div class="blog-img mb-30">
-                        <img src="{{ $book_image }}" alt="blog" />
+                        <img src="{{ asset($blog->image) }}" alt="blog" />
                     </div>
                     <div class="single-blog-content">
                         <div class="single-blog-title">
                             <h3>{{ $blog->title }}</h3>
                         </div>
                         <div class="blog-single-content">
-                            <p>{{ $blog->content }}</p>
+                            <div id="content-blog"></div>
                         </div>
                     </div>
                     <div class="comment-tag">
                         <form>
-                            <input id="input-21b" value="{{ $blog->rate_average }}" type="text" class="rating" data-min=0 data-max=5 data-step=0.2 data-size="sm" readOnly required title="">
+                            <input id="input-21b" value="{{ $blog->rate_average }}" type="text" class="rating" data-min=0 data-max=5 data-step=0.2 data-size="lg" readOnly required title="">
                         </form>
                     </div>
                     <div class="sharing-post mt-20">
@@ -210,19 +211,11 @@
                                     <div class="public-text">
                                         <div class="single-comm-top">
                                             <a href="#">{{ $comment->user->name }}</a>
-                                            <p>{{ $comment->updated_at->toDayDateTimeString() }}
+                                            <p>{{ $comment->created_at->toDayDateTimeString() }}
                                                 <a data-toggle="collapse"
                                                     href="#collapseExample-{{ $comment->id }}"
                                                     aria-expanded="false"
                                                 aria-controls="collapseExample">Reply</a>
-                                                <a data-toggle="modal" data-target="#report_comment_{{ $comment->id }}">Report</a>
-                                                @if (Auth::check())
-                                                @if ($comment->user->id === Auth::user()->id)
-                                                <a data-toggle="modal" data-target="#edit_comment_{{ $comment->id }}">Edit</a>
-                                                <a onclick="event.preventDefault();
-                                                document.getElementById('delete-form-{{ $comment->id }}').submit();">Delete</a>
-                                                @endif
-                                                @endif
                                             </p>
                                         </div>
                                         <p>{{ $comment->content }}</p>
@@ -245,86 +238,12 @@
                                     <div class="public-text">
                                         <div class="single-comm-top">
                                             <a href="#">{{ $comment_child->user->name }}</a>
-                                            <p>{{ $comment_child->updated_at->toDayDateTimeString() }}
-                                                <a data-toggle="modal" data-target="#report_comment_{{ $comment_child->id }}">Report</a>
-                                                @if (Auth::check())
-                                                    @if ($comment_child->user->id === Auth::user()->id)
-                                                    <a data-toggle="modal" data-target="#edit_comment_{{ $comment_child->id }}">Edit</a>
-                                                    <a onclick="event.preventDefault();
-                                                        document.getElementById('delete-form-{{ $comment_child->id }}').submit();">Delete</a>
-                                                    @endif
-                                                @endif
-                                            </p>
+                                            <p>{{ $comment_child->created_at->toDayDateTimeString() }} </p>
                                         </div>
                                         <p>{{ $comment_child->content }}</p>
                                     </div>
                                 </div>
                             </li>
-                            @if (Auth::check())
-                            @if ($comment_child->user->id === Auth::user()->id)
-                            <div class="modal fade" id="edit_comment_{{ $comment_child->id }}" role="dialog" style="margin-top:10%">
-                                <div class="modal-dialog">
-                                    <!-- Modal content-->
-                                    <form action="/comment/edit" method="post">
-                                    @csrf
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <label for="comment">Edit Comment</label>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <input type="hidden" name="comment_id" value="{{ $comment_child->id }}">
-                                                <textarea name="content" class="form-control" rows="5" id="comment">{{ $comment->content }}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-success">Save</button>
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <form id="delete-form-{{ $comment_child->id }}" action="/comment/delete" method="post"
-                                style="display: none;">
-                                <input type="hidden" name="comment_id" value="{{ $comment_child->id }}">
-                                @csrf
-                            </form>
-                            @endif
-                            @endif
-                            <div class="modal fade" id="report_comment_{{ $comment_child->id }}" role="dialog" style="margin-top:10%">
-                                <div class="modal-dialog">
-                                    <!-- Modal content-->
-                                    <form action="/comment/report" method="post">
-                                    @csrf
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <label for="comment">Report abuse</label>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <input type="hidden" name="comment_id" value="{{ $comment_child->id }}">
-                                                <select name="report_id" class="form-control">
-                                                    <option value="1">Inappropriate Content</option>
-                                                    <option value="2">Harassment</option>
-                                                    <option value="3">Policy Violation</option>
-                                                    <option value="4">Spam</option>
-                                                    <option value="5">Other</option>
-                                                </select>
-                                                <br>
-                                                <textarea name="content" class="form-control" rows="5"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-success">Send</button>
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
                             @endforeach
                             <div class="collapse" id="collapseExample-{{ $comment->id }}">
                                 <div class="comment-input mt-40">
@@ -341,71 +260,6 @@
                                             </div>
                                         </form>
                                     </div>
-                                </div>
-                            </div>
-                            @if (Auth::check())
-                            @if ($comment->user->id === Auth::user()->id)
-                            <div class="modal fade" id="edit_comment_{{ $comment->id }}" role="dialog" style="margin-top:10%">
-                                <div class="modal-dialog">
-                                    <!-- Modal content-->
-                                    <form action="/comment/edit" method="post">
-                                    @csrf
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <label for="comment">Edit Comment</label>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <input type="hidden" name="comment_id" value="{{ $comment->id }}">
-                                                <textarea name="content" class="form-control" rows="5" id="comment">{{ $comment->content }}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-success">Save</button>
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <form id="delete-form-{{ $comment->id }}" action="/comment/delete" method="post"
-                                style="display: none;">
-                                <input type="hidden" name="comment_id" value="{{ $comment->id }}">
-                                @csrf
-                            </form>
-                            @endif
-                            @endif
-                            <div class="modal fade" id="report_comment_{{ $comment->id }}" role="dialog" style="margin-top:10%">
-                                <div class="modal-dialog">
-                                    <!-- Modal content-->
-                                    <form action="/comment/report" method="post">
-                                    @csrf
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <label for="comment">Report abuse</label>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <input type="hidden" name="comment_id" value="{{ $comment->id }}">
-                                                <select name="report_id" class="form-control">
-                                                    <option value="1">Inappropriate Content</option>
-                                                    <option value="2">Harassment</option>
-                                                    <option value="3">Policy Violation</option>
-                                                    <option value="4">Spam</option>
-                                                    <option value="5">Other</option>
-                                                </select>
-                                                <br>
-                                                <textarea name="content" class="form-control" rows="5"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-success">Send</button>
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                    </form>
                                 </div>
                             </div>
                             @endforeach
@@ -436,7 +290,7 @@
 </div>
 <!-- blog-main-area-end -->
 @endsection
-@section('rate')
+@section('script')
 <script>
     $("#input-21b").rating({
         showClear: false,
@@ -444,5 +298,6 @@
             return val+' ({{ $blog->user_rate_total }} ratings)';
         },
     });
+    document.getElementById('content-blog').innerHTML = marked('{{ str_replace( array( "\n", "\r" ), array( "\\n", "\\r" ), $blog->content ) }}');
 </script>
 @endsection
