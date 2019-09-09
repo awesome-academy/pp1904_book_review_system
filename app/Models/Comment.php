@@ -37,4 +37,11 @@ class Comment extends Model
             'parent_id' => isset($request->parent_id) ? $request->get('parent_id') : '0',
         ]);
     }
+
+    public function scopeEditComment($query, $request)
+    {
+        return $query->whereId($request->get('comment_id'))->update([
+            'content' => $request->get('content'),
+        ]);
+    }
 }

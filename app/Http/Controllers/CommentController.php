@@ -17,4 +17,19 @@ class CommentController extends Controller
 
         return redirect()->back()->with('status', 'Your comment has been created!');
     }
+
+    public function editComment(CommentFormRequest $request)
+    {
+        Comment::editComment($request);
+
+        return redirect()->back();
+    }
+
+    public function deleteComment(Request $request)
+    {
+        $comment = Comment::whereId($request->get('comment_id'));
+        $comment->delete();
+
+        return redirect()->back();
+    }
 }
