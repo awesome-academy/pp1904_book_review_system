@@ -63,10 +63,10 @@
                     </div>
                 </div>
                 <!-- product-main-area-end -->
-                
+
                 <div class="sharing-post mt-20">
                     <!-- Trigger the modal with a button -->
-                    
+
                     <!-- Modal -->
                     <div id="myModal" class="modal fade" role="dialog">
                         <div class="modal-dialog" style="margin-top:10%">
