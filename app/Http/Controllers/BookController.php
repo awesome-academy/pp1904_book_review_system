@@ -9,6 +9,7 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Rate;
+use App\Models\BookImage;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -59,8 +60,17 @@ class BookController extends Controller
         $comments = $book->comments()->where('parent_id', false)->with('user')->get();
         $count_comment = $book->comments()->count();
         $public_date = Carbon::parse($book->public_date)->toFormattedDateString();
+        $book_images = BookImage::whereBookId($book->id)->get();
 
-        return view('books.show', compact('book', 'comments', 'count_comment', 'public_date'));
+        return view('books.show',
+            compact(
+                'book',
+                'comments',
+                'count_comment',
+                'public_date',
+                'book_images'
+            )
+        );
     }
 
     /**

@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\CreateBookFormRequest;
 use App\Models\Book;
+use App\Models\BookImage;
+use App\Models\Category;
+use App\Models\Author;
+use App\Models\PublishingCompany;
 
 class BookController extends Controller
 {
@@ -29,7 +33,11 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('admin.books.create');
+        $categories = Category::all();
+        $authors = Author::all();
+        $publishing_companies = PublishingCompany::all();
+
+        return view('admin.books.create', compact('categories', 'authors', 'publishing_companies'));
     }
 
     /**
@@ -41,7 +49,10 @@ class BookController extends Controller
     public function store(Request $request)
     {
 
-        Book::createBook($request);
+        $book = Book::createBook($request);
+        BookImage::addImage($book->id, $request->get('image-2'));
+        BookImage::addImage($book->id, $request->get('image-3'));
+        BookImage::addImage($book->id, $request->get('image-4'));
 
         return redirect()->back();
     }
@@ -66,8 +77,20 @@ class BookController extends Controller
     public function edit($slug)
     {
         $book = Book::whereSlug($slug)->firstOrFail();
+        $categories = Category::all();
+        $authors = Author::all();
+        $publishing_companies = PublishingCompany::all();
+        $book_images = BookImage::whereBookId($book->id)->pluck('image');
 
-        return view('admin.books.edit', compact('book'));
+        return view('admin.books.edit',
+            compact(
+                'book',
+                'categories',
+                'authors',
+                'publishing_companies',
+                'book_images',
+            )
+        );
     }
 
     /**
@@ -79,7 +102,12 @@ class BookController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        Book::updateBook($request, $slug);
+        $book = Book::updateBook($request, $slug);
+        $book_id = Book::whereSlug($slug)->first()->id;
+        BookImage::whereBookId($book_id)->delete();
+        BookImage::addImage($book_id, $request->get('image-2'));
+        BookImage::addImage($book_id, $request->get('image-3'));
+        BookImage::addImage($book_id, $request->get('image-4'));
 
         return redirect('/manager/books');
     }
@@ -105,9 +133,9 @@ class BookController extends Controller
         list(, $image)      = explode(',', $image);
         $image = base64_decode($image);
         $image_name= time().'.png';
-        $path = public_path('img/'.$image_name);
+        $path = public_path('img/book/'.$image_name);
         file_put_contents($path, $image);
 
-        return response()->json(['image_name'=>$image_name]);
+        return response()->json(['image_name'=>'img/book/'.$image_name]);
     }
 }

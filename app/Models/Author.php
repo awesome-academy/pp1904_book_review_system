@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Book;
 
-class Category extends Model
+class Author extends Model
 {
     protected $fillable = [
         'name',
@@ -14,6 +14,6 @@ class Category extends Model
 
     public function books()
     {
-        return $this->hasMany(Book::class, 'category_id');
+        return $this->hasMany(Book::class, 'author_id');
     }
 }

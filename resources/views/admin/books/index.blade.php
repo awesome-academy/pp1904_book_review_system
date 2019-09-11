@@ -20,7 +20,7 @@
                 <li class="m-nav__separator">-</li>
                 <li class="m-nav__item">
                     <a href="" class="m-nav__link">
-                        <span class="m-nav__link-text">example</span>
+                        <span class="m-nav__link-text">All</span>
                     </a>
                 </li>
             </ul>
@@ -34,7 +34,7 @@
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
                 <h3 class="m-portlet__head-text">
-                Select DataTable
+                All Book
                 </h3>
             </div>
         </div>
@@ -74,9 +74,9 @@
                     <td>{{ $book->rate_average }}</td>
                     <td>{{ $book->user_rate_total }}</td>
                     <td>{{ $book->image }}</td>
-                    <td>{{ $book->public_date }}</td>
-                    <td>{{ $book->author }}</td>
-                    <td>{{ $book->publishing_company }}</td>
+                    <td>{{ Carbon\Carbon::parse($book->public_date)->toFormattedDateString() }}</td>
+                    <td>{{ $book->author->name }}</td>
+                    <td>{{ $book->publishingCompany->name }}</td>
                     <td>{{ $book->category->name }}</td>
                     <td nowrap>
                         <span class="dropdown">
