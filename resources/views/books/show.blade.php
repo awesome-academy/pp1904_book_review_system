@@ -74,15 +74,23 @@
                                     <li data-thumb="{{ asset($book->image) }}">
                                         <img src="{{ asset($book->image) }}" alt="woman" />
                                     </li>
-                                    <li data-thumb="{{ asset($book->image) }}">
-                                        <img src="{{ asset($book->image) }}" alt="woman" />
-                                    </li>
-                                    <li data-thumb="{{ asset($book->image) }}">
-                                        <img src="{{ asset($book->image) }}" alt="woman" />
-                                    </li>
-                                    <li data-thumb="{{ asset($book->image) }}">
-                                        <img src="{{ asset($book->image) }}" alt="woman" />
-                                    </li>
+                                    @if ($book_images->isEmpty())
+                                        <li data-thumb="{{ asset($book->image) }}">
+                                            <img src="{{ asset($book->image) }}" alt="woman" />
+                                        </li>
+                                        <li data-thumb="{{ asset($book->image) }}">
+                                            <img src="{{ asset($book->image) }}" alt="woman" />
+                                        </li>
+                                        <li data-thumb="{{ asset($book->image) }}">
+                                            <img src="{{ asset($book->image) }}" alt="woman" />
+                                        </li>
+                                    @else
+                                        @foreach ($book_images as $book_image)
+                                        <li data-thumb="{{ asset($book_image->image) }}">
+                                            <img src="{{ asset($book_image->image) }}" alt="woman" />
+                                        </li>
+                                        @endforeach
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -94,7 +102,7 @@
                                 <div class="product-info-stock-sku">
                                     <span>Author:</span>
                                     <div class="product-attribute">
-                                        <span>{{ $book->author }}</span>
+                                        <span>{{ $book->author->name }}</span>
                                     </div>
                                 </div>
                                 <div class="product-info-stock-sku">
@@ -106,7 +114,7 @@
                                 <div class="product-info-stock-sku">
                                     <span>Publishing Company:</span>
                                     <div>
-                                        <span>{{ $book->publishing_company }}</span>
+                                        <span>{{ $book->publishingCompany->name }}</span>
                                     </div>
                                 </div>
                                 <div class="product-reviews-summary">

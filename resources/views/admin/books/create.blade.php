@@ -55,7 +55,15 @@
             <div class="form-group m-form__group row">
                 <label class="col-form-label col-lg-3 col-sm-12" for="exampleInputPassword1">Author</label>
                 <div class="col-lg-6 col-md-9 col-sm-12">
-                    <input type="text" name="author" class="form-control m-input" id="exampleInputPassword1" >
+                    <select name="publishing_company" class="form-control m-input" id="exampleSelect1">
+                        @if ($authors->isEmpty())
+                            <option value="0"> There is no author.</option>
+                        @else
+                            @foreach ($authors as $author)
+                            <option value="{{ $author->id }}">{{ $author->name }}</option>
+                            @endforeach
+                        @endif
+                    </select>
                 </div>
             </div>
             <div class="form-group m-form__group row">
@@ -76,11 +84,13 @@
                 <label class="col-form-label col-lg-3 col-sm-12" for="exampleSelect1">Publishing Company</label>
                 <div class="col-lg-6 col-md-9 col-sm-12">
                     <select name="publishing_company" class="form-control m-input" id="exampleSelect1">
-                        <option value="1">1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        @if ($publishing_companies->isEmpty())
+                            <option value="0"> There is no publishing company.</option>
+                        @else
+                            @foreach ($publishing_companies as $publishing_company)
+                            <option value="{{ $publishing_company->id }}">{{ $publishing_company->name }}</option>
+                            @endforeach
+                        @endif
                     </select>
                 </div>
             </div>
@@ -88,24 +98,53 @@
                 <label class="col-form-label col-lg-3 col-sm-12" for="exampleSelect2">Category</label>
                 <div class="col-lg-6 col-md-9 col-sm-12">
                     <select name="category_id" class="form-control m-input" id="exampleSelect2">
-                        <option value="2">1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        @if ($categories->isEmpty())
+                            <option value="0"> There is no category.</option>
+                        @else
+                            @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        @endif
                     </select>
                 </div>
             </div>
             <div class="form-group m-form__group row">
                 <label class="col-form-label col-lg-3 col-sm-12">Detail</label>
                 <div class="col-lg-6 col-md-9 col-sm-12">
-                    <textarea name="details" class="form-control m-input" id="m_autosize_1" rows="3"></textarea>
+                    <textarea name="detail" class="form-control m-input" id="m_autosize_1" rows="3"></textarea>
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                <label class="col-form-label col-lg-3 col-sm-12">Image</label>
+                <label class="col-form-label col-lg-3 col-sm-12">Main Image</label>
                 <div class="input-group col-lg-6 col-md-9 col-sm-12">
-                    <input name="image" id="preview-name-image" type="text" class="form-control" readonly>
+                    <input name="image-1" id="preview-name-image-1" type="text" class="form-control" readonly>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#m_modal_1">Upload</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-form__group row">
+                <label class="col-form-label col-lg-3 col-sm-12">Image 2</label>
+                <div class="input-group col-lg-6 col-md-9 col-sm-12">
+                    <input name="image-2" id="preview-name-image-2" type="text" class="form-control" readonly>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#m_modal_2">Upload</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-form__group row">
+                <label class="col-form-label col-lg-3 col-sm-12">Image 3</label>
+                <div class="input-group col-lg-6 col-md-9 col-sm-12">
+                    <input name="image-3" id="preview-name-image-3" type="text" class="form-control" readonly>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#m_modal_3">Upload</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-form__group row">
+                <label class="col-form-label col-lg-3 col-sm-12">Image 4</label>
+                <div class="input-group col-lg-6 col-md-9 col-sm-12">
+                    <input name="image-4" id="preview-name-image-4" type="text" class="form-control" readonly>
                     <div class="input-group-append">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#m_modal_4">Upload</button>
                     </div>
@@ -125,6 +164,84 @@
     </form>
     <!--end::Form-->
 </div>
+<div class="modal fade show" id="m_modal_1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 16px;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="upload-demo-1"></div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">Select image to crop:</label>
+                    <div class="custom-file col-lg-9 col-md-9 col-sm-12">
+                        <input type="file" class="custom-file-input" id="image-1">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary upload-image-1">Upload Image</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade show" id="m_modal_2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 16px;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="upload-demo-2"></div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">Select image to crop:</label>
+                    <div class="custom-file col-lg-9 col-md-9 col-sm-12">
+                        <input type="file" class="custom-file-input" id="image-2">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary upload-image-2">Upload Image</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade show" id="m_modal_3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 16px;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="upload-demo-3"></div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">Select image to crop:</label>
+                    <div class="custom-file col-lg-9 col-md-9 col-sm-12">
+                        <input type="file" class="custom-file-input" id="image-3">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary upload-image-3">Upload Image</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade show" id="m_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 16px;">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -135,18 +252,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div id="upload-demo"></div>
+                <div id="upload-demo-4"></div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">Select image to crop:</label>
                     <div class="custom-file col-lg-9 col-md-9 col-sm-12">
-                        <input type="file" class="custom-file-input" id="image">
+                        <input type="file" class="custom-file-input" id="image-4">
                         <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary upload-image">Upload Image</button>
+                <button type="button" class="btn btn-primary upload-image-4">Upload Image</button>
             </div>
         </div>
     </div>
@@ -159,7 +276,7 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
-var resize = $('#upload-demo').croppie({
+var resize1 = $('#upload-demo-1').croppie({
     enableExif: true,
     enableOrientation: true,
     viewport: {
@@ -171,10 +288,10 @@ var resize = $('#upload-demo').croppie({
         height: 475
     }
 });
-$('#image').on('change', function () {
+$('#image-1').on('change', function () {
     var reader = new FileReader();
         reader.onload = function (e) {
-        resize.croppie('bind',{
+        resize1.croppie('bind',{
             url: e.target.result
         }).then(function(){
             console.log('jQuery bind complete');
@@ -182,8 +299,8 @@ $('#image').on('change', function () {
     }
     reader.readAsDataURL(this.files[0]);
 });
-$('.upload-image').on('click', function (ev) {
-    resize.croppie('result', {
+$('.upload-image-1').on('click', function (ev) {
+    resize1.croppie('result', {
         type: 'canvas',
         size: 'viewport'
     }).then(function (img) {
@@ -193,7 +310,124 @@ $('.upload-image').on('click', function (ev) {
             data: {"image":img},
             success: function (data) {
                 name =  data.image_name;
-                $("#preview-name-image").val(name);
+                $("#preview-name-image-1").val(name);
+            }
+        });
+    });
+});
+var resize2 = $('#upload-demo-2').croppie({
+    enableExif: true,
+    enableOrientation: true,
+    viewport: {
+        width: 316,
+        height: 475
+    },
+    boundary: {
+        width: 500,
+        height: 475
+    }
+});
+$('#image-2').on('change', function () {
+    var reader = new FileReader();
+        reader.onload = function (e) {
+        resize2.croppie('bind',{
+            url: e.target.result
+        }).then(function(){
+            console.log('jQuery bind complete');
+        });
+    }
+    reader.readAsDataURL(this.files[0]);
+});
+$('.upload-image-2').on('click', function (ev) {
+    resize2.croppie('result', {
+        type: 'canvas',
+        size: 'viewport'
+    }).then(function (img) {
+        $.ajax({
+            url: "{{action('Manager\BookController@storeImage')}}",
+            type: "POST",
+            data: {"image":img},
+            success: function (data) {
+                name =  data.image_name;
+                $("#preview-name-image-2").val(name);
+            }
+        });
+    });
+});
+var resize3 = $('#upload-demo-3').croppie({
+    enableExif: true,
+    enableOrientation: true,
+    viewport: {
+        width: 316,
+        height: 475
+    },
+    boundary: {
+        width: 500,
+        height: 475
+    }
+});
+$('#image-3').on('change', function () {
+    var reader = new FileReader();
+        reader.onload = function (e) {
+        resize3.croppie('bind',{
+            url: e.target.result
+        }).then(function(){
+            console.log('jQuery bind complete');
+        });
+    }
+    reader.readAsDataURL(this.files[0]);
+});
+$('.upload-image-3').on('click', function (ev) {
+    resize3.croppie('result', {
+        type: 'canvas',
+        size: 'viewport'
+    }).then(function (img) {
+        $.ajax({
+            url: "{{action('Manager\BookController@storeImage')}}",
+            type: "POST",
+            data: {"image":img},
+            success: function (data) {
+                name =  data.image_name;
+                $("#preview-name-image-3").val(name);
+            }
+        });
+    });
+});
+var resize4 = $('#upload-demo-4').croppie({
+    enableExif: true,
+    enableOrientation: true,
+    viewport: {
+        width: 316,
+        height: 475
+    },
+    boundary: {
+        width: 500,
+        height: 475
+    }
+});
+$('#image-4').on('change', function () {
+    var reader = new FileReader();
+        reader.onload = function (e) {
+        resize4.croppie('bind',{
+            url: e.target.result
+        }).then(function(){
+            console.log('jQuery bind complete');
+        });
+    }
+    reader.readAsDataURL(this.files[0]);
+});
+$('.upload-image-4').on('click', function (ev) {
+    resize4.croppie('result', {
+        type: 'canvas',
+        size: 'viewport'
+    }).then(function (img) {
+        $.ajax({
+            url: "{{action('Manager\BookController@storeImage')}}",
+            type: "POST",
+            data: {"image":img},
+            success: function (data) {
+                name =  data.image_name;
+                $("#preview-name-image-4").val(name);
             }
         });
     });

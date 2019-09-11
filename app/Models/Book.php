@@ -8,6 +8,8 @@ use App\Models\Comment;
 use App\Models\Rate;
 use App\Models\Blog;
 use App\Models\Category;
+use App\Models\Author;
+use App\Models\PublishingCompany;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -50,9 +52,24 @@ class Book extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function author()
+    {
+        return $this->belongsTo(Author::class);
+    }
+
+    public function publishingCompany()
+    {
+        return $this->belongsTo(PublishingCompany::class);
+    }
+
     public function favoriteDetail()
     {
         return $this->belongsTo(FavoriteDetail::class, 'book_id');
+    }
+
+    public function bookImages()
+    {
+        return $this->hasMany(BookImage::class, 'book_id');
     }
 
     public function scopeUpdateRateAverage($query, $request)
@@ -74,10 +91,10 @@ class Book extends Model
             'title' => $request->get('title'),
             'slug' => Str::slug($request->get('title'), '-'),
             'detail' => $request->get('detail'),
-            'image' => $request->get('image'),
+            'image' => $request->get('image-1'),
             'public_date' => Carbon::parse($request->get('public_date'))->format('Y-m-d'),
-            'author' => $request->get('author'),
-            'publishing_company' => $request->get('publishing_company'),
+            'author_id' => $request->get('author_id'),
+            'publishing_company_id' => $request->get('publishing_company_id'),
         ]);
     }
 
@@ -88,10 +105,10 @@ class Book extends Model
             'title' => $request->get('title'),
             'slug' => Str::slug($request->get('title'), '-'),
             'detail' => $request->get('detail'),
-            'image' => $request->get('image'),
+            'image' => $request->get('image-1'),
             'public_date' => Carbon::parse($request->get('public_date'))->format('Y-m-d'),
-            'author' => $request->get('author'),
-            'publishing_company' => $request->get('publishing_company'),
+            'author_id' => $request->get('author_id'),
+            'publishing_company_id' => $request->get('publishing_company_id'),
         ]);
     }
 }
