@@ -1,5 +1,47 @@
 @extends('layouts.master')
 @section('title', 'Register')
+@section('menu-area')
+<div class="menu-area">
+    <nav>
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/books">Book<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/books">Audio books<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/books">children’s books<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/blogs">blog<i class="fa fa-angle-down"></i></a>
+                <div class="sub-menu sub-menu-2">
+                    <ul>
+                        <li>
+                            <a href="blog.html">blog</a>
+                        </li>
+                        <li>
+                            <a href="blog-details.html">blog-details</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="#">pages<i class="fa fa-angle-down"></i></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div class="safe-area">
+    <a href="product-details.html">sales off</a>
+</div>
+<div class="safe-area">
+    <a href="product-details.html">sales offfd</a>
+</div>
+@endsection
 @section('content')
 <!-- breadcrumbs-area-start -->
 <div class="breadcrumbs-area mb-70">
@@ -8,8 +50,8 @@
             <div class="col-lg-12">
                 <div class="breadcrumbs-menu">
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#" class="active">Register</a></li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/register" class="active">Register</a></li>
                     </ul>
                 </div>
             </div>
@@ -60,7 +102,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            
+
                         </div>
                         <div class="single-login">
                             <label>Password Comfirm <span>*</span></label>

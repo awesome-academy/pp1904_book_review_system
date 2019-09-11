@@ -19,6 +19,6 @@ $factory->define(Comment::class, function (Faker $faker) {
         'content' => $faker->realText($maxNbChars = 200, $indexSize = 2),
         'post_id' => $faker->randomElement($post_id),
         'post_type' => $post_type,
-        'parent_id' => $faker->numberBetween($min = 01, $max = 20),
+        'parent_id' => '0',
     ];
 });

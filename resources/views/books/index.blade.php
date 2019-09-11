@@ -1,8 +1,63 @@
 @extends('layouts.master')
-@section('title', 'Home')
+@section('title', 'Book')
+@section('menu-area')
+<div class="menu-area">
+    <nav>
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li  class="active">
+                <a href="/books">Book<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/books">Audio books<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/books">children’s books<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/blogs">blog<i class="fa fa-angle-down"></i></a>
+                <div class="sub-menu sub-menu-2">
+                    <ul>
+                        <li>
+                            <a href="/blogs/create">White Blog</a>
+                        </li>
+                        <li>
+                            <a>Another</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a>pages<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a>favorite<i class="fa fa-angle-down"></i></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div class="safe-area">
+    <a>sale off</a>
+</div>
+@endsection
 @section('content')
 <!-- breadcrumbs-area-start -->
-@include('books.layouts.breadcrumb')
+<div class="breadcrumbs-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumbs-menu">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/books" class="active">Book</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- breadcrumbs-area-end -->
 <!-- shop-main-area-start -->
 <div class="shop-main-area mb-70">
@@ -11,7 +66,7 @@
             @include('books.layouts.leftaside')
             <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
                 <div class="category-image mb-30">
-                    <a href="#"><img src="img/banner/32.jpg" alt="banner" /></a>
+                    <a href="#"><img src="{{ asset('img/banner/32.jpg') }}" alt="banner" /></a>
                 </div>
                 <div class="section-title-5 mb-30">
                     <h2>Book</h2>
@@ -59,21 +114,10 @@
                             <div class="col-lg-3 col-md-4 col-sm-6">
                                 <!-- single-product-start -->
                                 <div class="product-wrapper mb-40">
-                                    <div class="product-img">
-                                        <a href="#">
-                                            <img src="{{ $book->image }}" alt="book" class="primary" />
+                                    <div>
+                                        <a href="/books/{{ $book->slug }}">
+                                            <img src="{{ asset($book->image) }}" alt="book" class="primary" />
                                         </a>
-                                        <div class="quick-view">
-                                            <a class="action-view" href="#" data-target="#productModal" data-toggle="modal" title="Quick View">
-                                                <i class="fa fa-search-plus"></i>
-                                            </a>
-                                        </div>
-                                        <div class="product-flag">
-                                            <ul>
-                                                <li><span class="sale">new</span></li>
-                                                <li><span class="discount-percentage">-5%</span></li>
-                                            </ul>
-                                        </div>
                                     </div>
                                     <div class="product-details text-center">
                                         <div class="product-rating">
@@ -85,22 +129,7 @@
                                                 <li><a href="#"><i class="fa fa-star"></i></a></li>
                                             </ul>
                                         </div>
-                                        <h4><a href="#">{{ $book->title }}</a></h4>
-                                        <div class="product-price">
-                                            <ul>
-                                                <li>$60.00</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-link">
-                                        <div class="product-button">
-                                            <a href="#" title="Add to cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        </div>
-                                        <div class="add-to-link">
-                                            <ul>
-                                                <li><a href="{{ action('BookController@show', $book->slug) }}" title="Details"><i class="fa fa-external-link"></i></a></li>
-                                            </ul>
-                                        </div>
+                                        <h4><a href="/books/{{ $book->slug }}">{{ $book->title }}</a></h4>
                                     </div>
                                 </div>
                                 <!-- single-product-end -->

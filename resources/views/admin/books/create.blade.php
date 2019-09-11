@@ -163,12 +163,12 @@ var resize = $('#upload-demo').croppie({
     enableExif: true,
     enableOrientation: true,
     viewport: {
-        width: 200,
-        height: 300
+        width: 316,
+        height: 475
     },
     boundary: {
         width: 500,
-        height: 300
+        height: 475
     }
 });
 $('#image').on('change', function () {

@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\User;
 use App\Models\Rate;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class BookController extends Controller
 {
@@ -57,8 +58,9 @@ class BookController extends Controller
         $book = Book::whereSlug($slug)->firstOrFail();
         $comments = $book->comments()->where('parent_id', false)->with('user')->get();
         $count_comment = $book->comments()->count();
+        $public_date = Carbon::parse($book->public_date)->toFormattedDateString();
 
-        return view('books.show', compact('book', 'comments', 'count_comment'));
+        return view('books.show', compact('book', 'comments', 'count_comment', 'public_date'));
     }
 
     /**
@@ -94,6 +96,7 @@ class BookController extends Controller
     {
         //
     }
+
     public function rate(RateFormRequest $request)
     {
         $user_id = Auth::user()->id;
@@ -101,5 +104,13 @@ class BookController extends Controller
         Book::updateRateAverage($request);
 
         return redirect()->back()->with('status', 'Your comment has been created!');
+    }
+
+    public function category($slug)
+    {
+        $category_id = Category::whereSlug($slug)->pluck('id');
+        $books = Book::whereIn('category_id', $category_id)->paginate(20);
+
+        return view('books.index', compact('books'));
     }
 }
