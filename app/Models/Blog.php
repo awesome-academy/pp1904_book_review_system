@@ -75,6 +75,7 @@ class Blog extends Model
             'content' => $request->get('content'),
             'image' => $path,
             'short_desc' => $request->get('short_desc'),
+            'category_id' => $request->get('category_id'),
         ]);
     }
 }

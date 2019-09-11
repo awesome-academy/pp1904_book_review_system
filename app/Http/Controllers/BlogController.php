@@ -33,7 +33,9 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('blogs.create');
+        $categories = Category::all();
+
+        return view('blogs.create', compact('categories'));
     }
 
     /**
@@ -59,11 +61,10 @@ class BlogController extends Controller
     public function show($slug)
     {
         $blog = Blog::whereSlug($slug)->firstOrFail();
-        $user_name = User::whereId($blog->user_id)->firstOrFail()->value('name');
         $comments = $blog->comments()->where('parent_id', false)->with('user')->get();
         $count_comment = $blog->comments()->count();
 
-        return view('blogs.show', compact('blog', 'user_name', 'comments', 'count_comment'));
+        return view('blogs.show', compact('blog', 'comments', 'count_comment'));
     }
 
     /**
@@ -103,8 +104,7 @@ class BlogController extends Controller
     public function category($slug)
     {
         $category_id = Category::whereSlug($slug)->pluck('id');
-        $book_id = Book::whereIn('category_id', $category_id)->pluck('id');
-        $blogs = Blog::with(['user', 'book'])->whereIn('book_id', $book_id)->paginate(5);
+        $blogs = Blog::whereIn('category_id', $category_id)->with(['user', 'book'])->paginate(5);
 
         return view('blogs.index', compact('blogs'));
     }

@@ -25,7 +25,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         view::composer(
-            'blogs.layouts.leftaside',
+            ['blogs.layouts.leftaside', 'books.layouts.leftaside'],
             'App\Http\ViewComposers\BlogLeftAsideComposer'
         );
     }

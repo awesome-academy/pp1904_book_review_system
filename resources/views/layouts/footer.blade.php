@@ -8,11 +8,11 @@
                     <div class="footer-top-menu bb-2">
                         <nav>
                             <ul>
-                                <li><a href="#">home</a></li>
+                                <li><a href="/">Home</a></li>
                                 <li><a href="#">Enable Cookies</a></li>
                                 <li><a href="#">Privacy and Cookie Policy</a></li>
-                                <li><a href="#">contact us</a></li>
-                                <li><a href="#">blog</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Blog</a></li>
                             </ul>
                         </nav>
                     </div>

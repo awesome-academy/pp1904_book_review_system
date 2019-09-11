@@ -12,6 +12,13 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        factory(Category::class, 5)->create();
+        DB::table('categories')->insert([
+            ['name' => 'Romance', 'slug' => 'romance'],
+            ['name' => 'Action & Adventure', 'slug' => 'action-&-adventure'],
+            ['name' => 'Mystery & Thriller', 'slug' => 'mystery-&-thriller'],
+            ['name' => 'Biographies & History', 'slug' => 'biographies-&-history'],
+            ['name' => 'Chidren’s', 'slug' => 'chidren’s'],
+            ['name' => 'Young Adult', 'slug' => 'young-adult']
+        ]);
     }
 }

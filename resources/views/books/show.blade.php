@@ -1,8 +1,64 @@
 @extends('layouts.master')
-@section('title', 'Home')
+@section('title', $book->title)
+@section('menu-area')
+<div class="menu-area">
+    <nav>
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li  class="active">
+                <a href="/books">Book<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/books">Audio books<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/books">children’s books<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/blogs">blog<i class="fa fa-angle-down"></i></a>
+                <div class="sub-menu sub-menu-2">
+                    <ul>
+                        <li>
+                            <a href="/blogs/create">White Blog</a>
+                        </li>
+                        <li>
+                            <a>Another</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a>pages<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a>favorite<i class="fa fa-angle-down"></i></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div class="safe-area">
+    <a>sale off</a>
+</div>
+@endsection
 @section('content')
 <!-- breadcrumbs-area-start -->
-@include('books.layouts.breadcrumb')
+<div class="breadcrumbs-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumbs-menu">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/books">Book</a></li>
+                        <li><a href="/books/{{ $book->slug}}" class="active">{{ $book->title }}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- breadcrumbs-area-end -->
 <!-- product-main-area-start -->
 <div class="product-main-area mb-70">
@@ -15,17 +71,17 @@
                         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                             <div class="flexslider">
                                 <ul class="slides">
-                                    <li data-thumb="{{ $book->image }}">
-                                        <img src="{{ $book->image }}" alt="woman" />
+                                    <li data-thumb="{{ asset($book->image) }}">
+                                        <img src="{{ asset($book->image) }}" alt="woman" />
                                     </li>
-                                    <li data-thumb="{{ $book->image }}">
-                                        <img src="{{ $book->image }}" alt="woman" />
+                                    <li data-thumb="{{ asset($book->image) }}">
+                                        <img src="{{ asset($book->image) }}" alt="woman" />
                                     </li>
-                                    <li data-thumb="{{ $book->image }}">
-                                        <img src="{{ $book->image }}" alt="woman" />
+                                    <li data-thumb="{{ asset($book->image) }}">
+                                        <img src="{{ asset($book->image) }}" alt="woman" />
                                     </li>
-                                    <li data-thumb="{{ $book->image }}">
-                                        <img src="{{ $book->image }}" alt="woman" />
+                                    <li data-thumb="{{ asset($book->image) }}">
+                                        <img src="{{ asset($book->image) }}" alt="woman" />
                                     </li>
                                 </ul>
                             </div>
@@ -36,10 +92,21 @@
                                     <h1>{{ $book->title }}</h1>
                                 </div>
                                 <div class="product-info-stock-sku">
-                                    <span>In stock</span>
+                                    <span>Author:</span>
                                     <div class="product-attribute">
-                                        <span>SKU</span>
-                                        <span class="value">24-WB05</span>
+                                        <span>{{ $book->author }}</span>
+                                    </div>
+                                </div>
+                                <div class="product-info-stock-sku">
+                                    <span>Pulic date:</span>
+                                    <div>
+                                        <span>{{ $public_date }}</span>
+                                    </div>
+                                </div>
+                                <div class="product-info-stock-sku">
+                                    <span>Publishing Company:</span>
+                                    <div>
+                                        <span>{{ $book->publishing_company }}</span>
                                     </div>
                                 </div>
                                 <div class="product-reviews-summary">
@@ -279,26 +346,15 @@
                 <!-- new-book-area-start -->
                 <div class="new-book-area mt-60">
                     <div class="section-title text-center mb-30">
-                        <h3>upsell products</h3>
+                        <h3>Another Book</h3>
                     </div>
-                    <div class="tab-active-2 owl-carousel">
+                    <div class="tab-active owl-carousel">
                         <!-- single-product-start -->
                         <div class="product-wrapper">
-                            <div class="product-img">
+                            <div>
                                 <a href="#">
-                                    <img src="{{ asset('img/product/1.jpg') }}" alt="book" class="primary" />
+                                    <img src="{{ asset('img/book/book (70).jpg') }}" alt="book" class="primary" />
                                 </a>
-                                <div class="quick-view">
-                                    <a class="action-view" href="#" data-target="#productModal" data-toggle="modal" title="Quick View">
-                                        <i class="fa fa-search-plus"></i>
-                                    </a>
-                                </div>
-                                <div class="product-flag">
-                                    <ul>
-                                        <li><span class="sale">new</span></li>
-                                        <li><span class="discount-percentage">-5%</span></li>
-                                    </ul>
-                                </div>
                             </div>
                             <div class="product-details text-center">
                                 <div class="product-rating">
@@ -311,40 +367,15 @@
                                     </ul>
                                 </div>
                                 <h4><a href="#">Joust Duffle Bag</a></h4>
-                                <div class="product-price">
-                                    <ul>
-                                        <li>$60.00</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-link">
-                                <div class="product-button">
-                                    <a href="#" title="Add to cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </div>
-                                <div class="add-to-link">
-                                    <ul>
-                                        <li><a href="product-details.html" title="Details"><i class="fa fa-external-link"></i></a></li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                         <!-- single-product-end -->
                         <!-- single-product-start -->
                         <div class="product-wrapper">
-                            <div class="product-img">
+                            <div>
                                 <a href="#">
-                                    <img src="{{ asset('img/product/3.jpg') }}" alt="book" class="primary" />
+                                    <img src="{{ asset('img/book/book (71).jpg') }}" alt="book" class="primary" />
                                 </a>
-                                <div class="quick-view">
-                                    <a class="action-view" href="#" data-target="#productModal" data-toggle="modal" title="Quick View">
-                                        <i class="fa fa-search-plus"></i>
-                                    </a>
-                                </div>
-                                <div class="product-flag">
-                                    <ul>
-                                        <li><span class="sale">new</span></li>
-                                    </ul>
-                                </div>
                             </div>
                             <div class="product-details text-center">
                                 <div class="product-rating">
@@ -356,41 +387,16 @@
                                         <li><a href="#"><i class="fa fa-star"></i></a></li>
                                     </ul>
                                 </div>
-                                <h4><a href="#">Chaz Kangeroo Hoodie</a></h4>
-                                <div class="product-price">
-                                    <ul>
-                                        <li>$52.00</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-link">
-                                <div class="product-button">
-                                    <a href="#" title="Add to cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </div>
-                                <div class="add-to-link">
-                                    <ul>
-                                        <li><a href="product-details.html" title="Details"><i class="fa fa-external-link"></i></a></li>
-                                    </ul>
-                                </div>
+                                <h4><a href="#">Joust Duffle Bag</a></h4>
                             </div>
                         </div>
                         <!-- single-product-end -->
                         <!-- single-product-start -->
                         <div class="product-wrapper">
-                            <div class="product-img">
+                            <div>
                                 <a href="#">
-                                    <img src="{{ asset('img/product/5.jpg') }}" alt="book" class="primary" />
+                                    <img src="{{ asset('img/book/book (72).jpg') }}" alt="book" class="primary" />
                                 </a>
-                                <div class="quick-view">
-                                    <a class="action-view" href="#" data-target="#productModal" data-toggle="modal" title="Quick View">
-                                        <i class="fa fa-search-plus"></i>
-                                    </a>
-                                </div>
-                                <div class="product-flag">
-                                    <ul>
-                                        <li><span class="discount-percentage">-5%</span></li>
-                                    </ul>
-                                </div>
                             </div>
                             <div class="product-details text-center">
                                 <div class="product-rating">
@@ -402,42 +408,16 @@
                                         <li><a href="#"><i class="fa fa-star"></i></a></li>
                                     </ul>
                                 </div>
-                                <h4><a href="#">Set of Sprite Yoga Straps</a></h4>
-                                <div class="product-price">
-                                    <ul>
-                                        <li> <span>Starting at</span>$34.00</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-link">
-                                <div class="product-button">
-                                    <a href="#" title="Add to cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </div>
-                                <div class="add-to-link">
-                                    <ul>
-                                        <li><a href="product-details.html" title="Details"><i class="fa fa-external-link"></i></a></li>
-                                    </ul>
-                                </div>
+                                <h4><a href="#">Joust Duffle Bag</a></h4>
                             </div>
                         </div>
                         <!-- single-product-end -->
                         <!-- single-product-start -->
                         <div class="product-wrapper">
-                            <div class="product-img">
+                            <div>
                                 <a href="#">
-                                    <img src="{{ asset('img/product/7.jpg') }}" alt="book" class="primary" />
+                                    <img src="{{ asset('img/book/book (73).jpg') }}" alt="book" class="primary" />
                                 </a>
-                                <div class="quick-view">
-                                    <a class="action-view" href="#" data-target="#productModal" data-toggle="modal" title="Quick View">
-                                        <i class="fa fa-search-plus"></i>
-                                    </a>
-                                </div>
-                                <div class="product-flag">
-                                    <ul>
-                                        <li><span class="sale">new</span></li>
-                                        <li><span class="discount-percentage">-5%</span></li>
-                                    </ul>
-                                </div>
                             </div>
                             <div class="product-details text-center">
                                 <div class="product-rating">
@@ -449,23 +429,28 @@
                                         <li><a href="#"><i class="fa fa-star"></i></a></li>
                                     </ul>
                                 </div>
-                                <h4><a href="#">Strive Shoulder Pack</a></h4>
-                                <div class="product-price">
-                                    <ul>
-                                        <li>$30.00</li>
-                                        <li class="old-price">$32.00</li>
-                                    </ul>
-                                </div>
+                                <h4><a href="#">Joust Duffle Bag</a></h4>
                             </div>
-                            <div class="product-link">
-                                <div class="product-button">
-                                    <a href="#" title="Add to cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </div>
-                                <div class="add-to-link">
+                        </div>
+                        <!-- single-product-end -->
+                        <!-- single-product-start -->
+                        <div class="product-wrapper">
+                            <div>
+                                <a href="#">
+                                    <img src="{{ asset('img/book/book (74).jpg') }}" alt="book" class="primary" />
+                                </a>
+                            </div>
+                            <div class="product-details text-center">
+                                <div class="product-rating">
                                     <ul>
-                                        <li><a href="product-details.html" title="Details"><i class="fa fa-external-link"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-star"></i></a></li>
                                     </ul>
                                 </div>
+                                <h4><a href="#">Joust Duffle Bag</a></h4>
                             </div>
                         </div>
                         <!-- single-product-end -->
@@ -478,79 +463,6 @@
     </div>
 </div>
 <!-- product-main-area-end -->
-<!-- Modal -->
-<div class="modal fade" id="productModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-5 col-sm-5 col-xs-12">
-                        <div class="modal-tab">
-                            <div class="product-details-large tab-content">
-                                <div class="tab-pane active" id="image-1">
-                                    <img src="{{ asset('img/product/quickview-l4.jpg') }}" alt="" />
-                                </div>
-                                <div class="tab-pane" id="image-2">
-                                    <img src="{{ asset('img/product/quickview-l2.jpg') }}" alt="" />
-                                </div>
-                                <div class="tab-pane" id="image-3">
-                                    <img src="{{ asset('img/product/quickview-l3.jpg') }}" alt="" />
-                                </div>
-                                <div class="tab-pane" id="image-4">
-                                    <img src="{{ asset('img/product/quickview-l5.jpg') }}" alt="" />
-                                </div>
-                            </div>
-                            <div class="product-details-small quickview-active owl-carousel">
-                                <a class="active" href="#image-1"><img src="img/product/quickview-s4.jpg" alt="" /></a>
-                                <a href="#image-2"><img src="{{ asset('img/product/quickview-s2.jpg') }}" alt="" /></a>
-                                <a href="#image-3"><img src="{{ asset('img/product/quickview-s3.jpg') }}" alt="" /></a>
-                                <a href="#image-4"><img src="{{ asset('img/product/quickview-s5.jpg') }}" alt="" /></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        <div class="modal-pro-content">
-                            <h3>Chaz Kangeroo Hoodie3</h3>
-                            <div class="price">
-                                <span>$70.00</span>
-                            </div>
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet.</p>
-                            <div class="quick-view-select">
-                                <div class="select-option-part">
-                                    <label>Size*</label>
-                                    <select class="select">
-                                        <option value="">S</option>
-                                        <option value="">M</option>
-                                        <option value="">L</option>
-                                    </select>
-                                </div>
-                                <div class="quickview-color-wrap">
-                                    <label>Color*</label>
-                                    <div class="quickview-color">
-                                        <ul>
-                                            <li class="blue">b</li>
-                                            <li class="red">r</li>
-                                            <li class="pink">p</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <form action="#">
-                                <input type="number" value="1" />
-                                <button>Add to cart</button>
-                            </form>
-                            <span><i class="fa fa-check"></i> In stock</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal end -->
 @endsection
 @section('script')
 <script>

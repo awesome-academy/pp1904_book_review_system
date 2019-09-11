@@ -1,8 +1,63 @@
 @extends('layouts.master')
-@section('title', 'Home')
+@section('title', 'Blog')
+@section('menu-area')
+<div class="menu-area">
+    <nav>
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/books">Book<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/books">Audio books<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/books">children’s books<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li  class="active">
+                <a href="/blogs">blog<i class="fa fa-angle-down"></i></a>
+                <div class="sub-menu sub-menu-2">
+                    <ul>
+                        <li>
+                            <a href="/blogs/create">White Blog</a>
+                        </li>
+                        <li>
+                            <a>Another</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a>pages<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a>favorite<i class="fa fa-angle-down"></i></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div class="safe-area">
+    <a>sale off</a>
+</div>
+@endsection
 @section('content')
 <!-- breadcrumbs-area-start -->
-@include('blogs.layouts.breadcrumb')
+<div class="breadcrumbs-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumbs-menu">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/blogs" class="active">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- breadcrumbs-area-end -->
 <!-- blog-main-area-start -->
 <div class="blog-main-area mb-70">
@@ -20,10 +75,7 @@
                                 </div>
                                 <div class="author-description">
                                     <p>Posted by:
-                                        <a href="#"><span>{{ $blog->user->name }}</span>in</a>
-                                        <a href="#">Fashion,</a>
-                                        <a href="#">Fashion,</a>
-                                        <a href="#">Fashion,</a>
+                                        <a><span>{{ $blog->user->name }}</span></a>
                                     </p>
                                     <span>{{ $blog->created_at->toFormattedDateString() }}</span>
                                 </div>
@@ -40,11 +92,11 @@
                             </div>
                         </div>
                         <div class="blog-img mb-30">
-                            <a href="#"><img src="{{ $blog->image }}" alt="blog" /></a>
+                            <a href="/blogs/{{$blog->slug}}"><img src="{{ asset($blog->image) }}" alt="blog" /></a>
                         </div>
                         <div class="single-blog-content">
                             <div class="single-blog-title">
-                                <h3><a href="#">{{ $blog->title }}</a></h3>
+                                <h3><a href="/blogs/{{$blog->slug}}">{{ $blog->title }}</a></h3>
                             </div>
                             <div class="blog-single-content">
                                 <p>{{ $blog->short_desc }}</p>
