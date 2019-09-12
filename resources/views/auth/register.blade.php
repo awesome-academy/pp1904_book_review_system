@@ -21,25 +21,25 @@
                 <div class="sub-menu sub-menu-2">
                     <ul>
                         <li>
-                            <a href="blog.html">blog</a>
+                            <a href="/blogs/create">White Blog</a>
                         </li>
                         <li>
-                            <a href="blog-details.html">blog-details</a>
+                            <a>Another</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li>
-                <a href="#">pages<i class="fa fa-angle-down"></i></a>
+                <a>pages<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/favorites">favorite<i class="fa fa-angle-down"></i></a>
             </li>
         </ul>
     </nav>
 </div>
 <div class="safe-area">
-    <a href="product-details.html">sales off</a>
-</div>
-<div class="safe-area">
-    <a href="product-details.html">sales offfd</a>
+    <a>sale off</a>
 </div>
 @endsection
 @section('content')
@@ -66,7 +66,6 @@
             <div class="col-lg-12">
                 <div class="login-title text-center mb-30">
                     <h2>Register</h2>
-                    <p>doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo<br>inventore veritatis et quasi architecto beat</p>
                 </div>
             </div>
             <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6 col-sm-12 col-xs-12">

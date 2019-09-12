@@ -7,9 +7,10 @@ use Faker\Generator as Faker;
 
 $factory->define(Favorite::class, function (Faker $faker) {
     $user_id = DB::table('users')->pluck('id');
+    $book_id = DB::table('books')->pluck('id');
 
     return [
         'user_id' => $faker->randomElement($user_id),
-        'name' => $faker->name(),
+        'book_id' => $faker->randomElement($book_id),
     ];
 });

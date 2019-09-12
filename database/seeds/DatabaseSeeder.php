@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(BlogSeeder::class);
         $this->call(CommentSeeder::class);
         $this->call(FavoriteSeeder::class);
-        $this->call(FavoriteDetailSeeder::class);
         $this->call(RateSeeder::class);
         $this->call(ReportSeeder::class);
     }

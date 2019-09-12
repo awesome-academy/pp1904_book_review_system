@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Rate;
 use App\Models\Blog;
 use App\Models\ReportDetail;
+use App\Models\Contact;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
@@ -64,5 +65,10 @@ class User extends Authenticatable
     public function reportDetails()
     {
         return $this->hasMany(ReportDetail::class, 'user_id');
+    }
+
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class, 'user_id');
     }
 }

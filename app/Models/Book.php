@@ -9,6 +9,7 @@ use App\Models\Rate;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Author;
+use App\Models\Favorite;
 use App\Models\PublishingCompany;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -70,6 +71,11 @@ class Book extends Model
     public function bookImages()
     {
         return $this->hasMany(BookImage::class, 'book_id');
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'book_id');
     }
 
     public function scopeUpdateRateAverage($query, $request)

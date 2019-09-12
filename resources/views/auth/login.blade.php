@@ -21,25 +21,25 @@
                 <div class="sub-menu sub-menu-2">
                     <ul>
                         <li>
-                            <a href="blog.html">blog</a>
+                            <a href="/blogs/create">White Blog</a>
                         </li>
                         <li>
-                            <a href="blog-details.html">blog-details</a>
+                            <a>Another</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li>
-                <a href="#">pages<i class="fa fa-angle-down"></i></a>
+                <a>pages<i class="fa fa-angle-down"></i></a>
+            </li>
+            <li>
+                <a href="/favorites">favorite<i class="fa fa-angle-down"></i></a>
             </li>
         </ul>
     </nav>
 </div>
 <div class="safe-area">
-    <a href="product-details.html">sales off</a>
-</div>
-<div class="safe-area">
-    <a href="product-details.html">sales offfd</a>
+    <a>sale off</a>
 </div>
 @endsection
 @section('content')

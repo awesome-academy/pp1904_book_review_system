@@ -123,4 +123,11 @@ class BookController extends Controller
 
         return view('books.index', compact('books'));
     }
+
+    public function search(Request $request)
+    {
+        $books = Book::where('title', 'like', "%".$request->get('search')."%")->paginate(20);
+
+        return view('books.index', compact('books'));
+    }
 }
