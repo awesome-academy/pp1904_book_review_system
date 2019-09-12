@@ -26,6 +26,11 @@ Route::post('/comment/report', 'CommentController@reportComment')->middleware('a
 Route::post('/blogs/rate', 'BlogController@rate')->middleware('auth');
 Route::post('/books/rate', 'BookController@rate')->middleware('auth');
 Route::post('/blogs/search', 'BlogController@search');
+Route::post('/books/search', 'BookController@search');
+Route::get('/favorites', 'HomeController@favorite')->middleware('auth');
+Route::post('/favorites/add', 'HomeController@addBook')->middleware('auth');
+Route::get('/contacts', 'HomeController@contact')->middleware('auth');
+Route::post('/contacts', 'HomeController@contactSend')->middleware('auth');
 
 Route::group([
     'prefix' => 'manager',
@@ -41,4 +46,7 @@ Route::group([
     Route::resource('categories', 'CategoryController');
     Route::resource('reportdetails', 'ReportDetailController');
     Route::resource('users', 'UserController');
+    Route::get('/contacts', 'HomeController@contact');
+    Route::post('/contacts', 'HomeController@replySend');
+    Route::get('/contacts/reply/{id}', 'HomeController@reply');
 });

@@ -1,8 +1,18 @@
 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
     <div class="shop-left">
-        <div class="section-title-5 mb-30">
-            <h2>Shopping Options</h2>
+        <div class="left-title mb-20">
+            <h4>Search</h4>
         </div>
+        <div class="side-form">
+            <form id="search-form" action="/books/search" method="post">
+                @csrf
+                <input type="text" name="search" placeholder="Search...." />
+                <a href="javascript:{}" onclick="document.getElementById('search-form').submit();">
+                    <i class="fa fa-search"></i>
+                </a>
+            </form>
+        </div>
+        <br>
         <div class="left-title mb-20">
             <h4>Category</h4>
         </div>

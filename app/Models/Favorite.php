@@ -12,7 +12,7 @@ class Favorite extends Model
 
     protected $fillable = [
         'user_id',
-        'name',
+        'book_id',
     ];
 
     public function user()
@@ -20,8 +20,8 @@ class Favorite extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function favoriteDetail()
-    {
-        return $this->hasOne(FavoriteDetail::class, 'favorite_id');
-    }
+    public function book()
+     {
+         return $this->belongsTo(Book::class);
+     }
 }

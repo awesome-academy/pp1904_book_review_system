@@ -33,7 +33,7 @@
                 <a>pages<i class="fa fa-angle-down"></i></a>
             </li>
             <li>
-                <a>favorite<i class="fa fa-angle-down"></i></a>
+                <a href="/favorites">favorite<i class="fa fa-angle-down"></i></a>
             </li>
         </ul>
     </nav>
