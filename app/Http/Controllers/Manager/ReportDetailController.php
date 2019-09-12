@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Manager;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Report;
+use App\Models\ReportDetail;
 use App\Models\Comment;
 use Illuminate\Support\Facades\DB;
 
-class ReportController extends Controller
+class ReportDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +17,12 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $reports = Report::all();
+        $report_details = ReportDetail::whereNull('deleted_at')
+                ->groupBy('comment_id')
+                ->select('*', DB::raw('count(comment_id) as total'))
+                ->with(['report', 'user', 'comment'])->get();
 
-        return view('admin.reports.crud.index', compact('reports'));
+        return view('admin.reports.index', compact('report_details'));
     }
 
     /**
@@ -29,7 +32,7 @@ class ReportController extends Controller
      */
     public function create()
     {
-        return view('admin.reports.crud.create');
+        //
     }
 
     /**
@@ -40,11 +43,7 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        Report::create([
-            'issue' => $request->get('issue')
-        ]);
-
-        return redirect()->back();
+        //
     }
 
     /**
@@ -55,7 +54,9 @@ class ReportController extends Controller
      */
     public function show($comment_id)
     {
-        //
+        $report_details = ReportDetail::whereCommentId($comment_id)->with(['report', 'user', 'comment'])->get();
+
+        return view('admin.reports.show', compact('report_details'));
     }
 
     /**
@@ -64,11 +65,9 @@ class ReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        $report = Report::whereId($id)->firstOrFail();
-
-        return view('admin.reports.crud.edit', compact('report'));
+        //
     }
 
     /**
@@ -78,13 +77,9 @@ class ReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        Report::whereId($id)->update([
-            'issue' => $request->get('issue')
-        ]);
-
-        return redirect('/manager/reports');
+        //
     }
 
     /**
@@ -93,12 +88,14 @@ class ReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($comment_id)
     {
-        $report = Report::whereId($id);
-        $report->delete();
+        $comment = Comment::whereId($comment_id);
+        $comment->delete();
+        $report_details = ReportDetail::whereCommentId($comment_id);
+        $report_details->delete();
 
-        return redirect('/manager/reports');
+        return redirect('/manager/reportdetails');
     }
 
 }

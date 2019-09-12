@@ -4,7 +4,7 @@
 <div class="m-subheader ">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
-            <h3 class="m-subheader__title m-subheader__title--separator">Book</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Report Pending</h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
                     <a href="/home" class="m-nav__link m-nav__link--icon">
@@ -13,14 +13,14 @@
                 </li>
                 <li class="m-nav__separator">-</li>
                 <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
-                        <span class="m-nav__link-text">Book</span>
+                    <a href="/manager/reports" class="m-nav__link">
+                        <span class="m-nav__link-text">Report</span>
                     </a>
                 </li>
                 <li class="m-nav__separator">-</li>
                 <li class="m-nav__item">
                     <a href="" class="m-nav__link">
-                        <span class="m-nav__link-text">example</span>
+                        <span class="m-nav__link-text">Pending</span>
                     </a>
                 </li>
             </ul>
@@ -34,7 +34,7 @@
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
                 <h3 class="m-portlet__head-text">
-                Select DataTable
+                All Report Pending
                 </h3>
             </div>
         </div>
@@ -52,18 +52,18 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($reports as $report)
+                @foreach ($report_details as $report_detail)
                 <tr>
-                    <td>{{ $report->comment->user->name }}</td>
-                    <td>{{ $report->comment->user->email }}</td>
-                    <td>{{ $report->comment->content }}</td>
-                    <td>{{ $report->total }}</td>
+                    <td>{{ $report_detail->comment->user->name }}</td>
+                    <td>{{ $report_detail->comment->user->email }}</td>
+                    <td>{{ $report_detail->comment->content }}</td>
+                    <td>{{ $report_detail->total }}</td>
                     <td nowrap="">
                         <a class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" onclick="event.preventDefault();
-                        document.getElementById('delete-comment-{{ $report->comment_id }}').submit();" title="Delete">
+                        document.getElementById('delete-comment-{{ $report_detail->comment_id }}').submit();" title="Delete">
                             <i class="la la-trash"></i>
                         </a>
-                        <a href="{{ route('reports.show', ['comment_id' => $report->comment_id]) }}" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Detail">
+                        <a href="{{ route('reportdetails.show', ['comment_id' => $report_detail->comment_id]) }}" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Detail">
                             <i class="la la-info-circle"></i>
                         </a>
                     </td>
@@ -74,9 +74,9 @@
         </table>
     </div>
 </div>
-@foreach ($reports as $report)
-<form id="delete-comment-{{ $report->comment_id }}"
-    action="{{ action('Manager\ReportController@destroy', $report->comment_id) }}" method="POST" style="display: none;">
+@foreach ($report_details as $report_detail)
+<form id="delete-comment-{{ $report_detail->comment_id }}"
+    action="{{ action('Manager\ReportDetailController@destroy', $report_detail->comment_id) }}" method="POST" style="display: none;">
     @method('DELETE')
     @csrf
 </form>

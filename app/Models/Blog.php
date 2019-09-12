@@ -9,9 +9,12 @@ use App\Models\Rate;
 use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Blog extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'user_id',
         'image',

@@ -1,6 +1,6 @@
 var DatatablesExtensionsKeytable = {
     init: function() {
-        var e, f;
+        var e, f, g, h;
         $("#m_table_1").DataTable({
             responsive: !0,
             select: !0,
@@ -87,6 +87,24 @@ var DatatablesExtensionsKeytable = {
                 { "sWidth": "40%" },
                 { "sWidth": "20%" },
                 { "sWidth": "5%" }
+            ]
+        })), (g = $("#m_table_author").DataTable({
+            responsive: !0,
+            bAutoWidth: false,
+            aoColumns: [
+                { "sWidth": "15%" },
+                { "sWidth": "15%" },
+                { "sWidth": "40%" },
+                { "sWidth": "10%" },
+                { "sWidth": "15%" },
+                { "sWidth": "5%" }
+            ]
+        })), (h = $("#m_table_report_2").DataTable({
+            responsive: !0,
+            bAutoWidth: false,
+            aoColumns: [
+                { "sWidth": "50%" },
+                { "sWidth": "50%" }
             ]
         }))
     }
