@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Manager;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Report;
-use App\Models\Comment;
-use Illuminate\Support\Facades\DB;
+use App\Models\Category;
 
-class ReportController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +15,9 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $reports = Report::all();
+        $categories = Category::all();
 
-        return view('admin.reports.crud.index', compact('reports'));
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -29,7 +27,7 @@ class ReportController extends Controller
      */
     public function create()
     {
-        return view('admin.reports.crud.create');
+        return view('admin.categories.create');
     }
 
     /**
@@ -40,8 +38,8 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        Report::create([
-            'issue' => $request->get('issue')
+        Category::create([
+            'name' => $request->get('name')
         ]);
 
         return redirect()->back();
@@ -53,7 +51,7 @@ class ReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($comment_id)
+    public function show($id)
     {
         //
     }
@@ -66,9 +64,9 @@ class ReportController extends Controller
      */
     public function edit($id)
     {
-        $report = Report::whereId($id)->firstOrFail();
+        $category = Category::whereId($id)->firstOrFail();
 
-        return view('admin.reports.crud.edit', compact('report'));
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -80,11 +78,11 @@ class ReportController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Report::whereId($id)->update([
-            'issue' => $request->get('issue')
+        Category::whereId($id)->update([
+            'name' => $request->get('name')
         ]);
 
-        return redirect('/manager/reports');
+        return redirect('/manager/categories');
     }
 
     /**
@@ -95,10 +93,9 @@ class ReportController extends Controller
      */
     public function destroy($id)
     {
-        $report = Report::whereId($id);
-        $report->delete();
+        $category = Category::whereId($id);
+        $category->delete();
 
-        return redirect('/manager/reports');
+        return redirect('/manager/categories');
     }
-
 }

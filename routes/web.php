@@ -36,4 +36,9 @@ Route::group([
     Route::resource('books', 'BookController');
     Route::post('/image', 'BookController@storeImage');
     Route::resource('reports', 'ReportController');
+    Route::resource('authors', 'AuthorController');
+    Route::resource('publishingcompanies', 'PublishingCompanyController');
+    Route::resource('categories', 'CategoryController');
+    Route::resource('reportdetails', 'ReportDetailController');
+    Route::resource('users', 'UserController');
 });

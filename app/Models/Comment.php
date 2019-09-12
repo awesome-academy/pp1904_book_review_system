@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\ReportDetail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 class Comment extends Model
 {
     use SoftDeletes;

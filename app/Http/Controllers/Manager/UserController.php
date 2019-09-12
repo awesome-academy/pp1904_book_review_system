@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Manager;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Report;
-use App\Models\Comment;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
-class ReportController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +16,9 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $reports = Report::all();
+        $users = User::where('id', '!=', Auth::user()->id)->get();
 
-        return view('admin.reports.crud.index', compact('reports'));
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -29,7 +28,7 @@ class ReportController extends Controller
      */
     public function create()
     {
-        return view('admin.reports.crud.create');
+        return view('admin.users.create');
     }
 
     /**
@@ -40,8 +39,10 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        Report::create([
-            'issue' => $request->get('issue')
+        User::create([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => Hash::make($request->get('password')),
         ]);
 
         return redirect()->back();
@@ -53,7 +54,7 @@ class ReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($comment_id)
+    public function show($id)
     {
         //
     }
@@ -66,9 +67,9 @@ class ReportController extends Controller
      */
     public function edit($id)
     {
-        $report = Report::whereId($id)->firstOrFail();
+        $user = User::whereId($id)->firstOrFail();
 
-        return view('admin.reports.crud.edit', compact('report'));
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -80,11 +81,13 @@ class ReportController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Report::whereId($id)->update([
-            'issue' => $request->get('issue')
+        User::whereId($id)->update([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => Hash::make($request->get('password')),
         ]);
 
-        return redirect('/manager/reports');
+        return redirect('/manager/users');
     }
 
     /**
@@ -95,10 +98,9 @@ class ReportController extends Controller
      */
     public function destroy($id)
     {
-        $report = Report::whereId($id);
-        $report->delete();
+        $user = User::whereId($id);
+        $user->delete();
 
-        return redirect('/manager/reports');
+        return redirect('/manager/users');
     }
-
 }
