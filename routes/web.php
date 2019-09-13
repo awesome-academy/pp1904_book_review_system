@@ -15,6 +15,7 @@ Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
+Route::get('/blogs/myblog', 'BlogController@myBlog')->middleware('auth');
 Route::resource('blogs', 'BlogController');
 Route::get('blogs/category/{slug}', 'BlogController@category');
 Route::get('books/category/{slug}', 'BookController@category');
