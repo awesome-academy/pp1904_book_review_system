@@ -24,7 +24,7 @@
                             <a href="/blogs/create">White Blog</a>
                         </li>
                         <li>
-                            <a>Another</a>
+                            <a href="/blogs/myblog">My Blog</a>
                         </li>
                     </ul>
                 </div>

@@ -24,7 +24,7 @@
                             <a href="/blogs/create">White Blog</a>
                         </li>
                         <li>
-                            <a>Another</a>
+                            <a href="/blogs/myblog">My Blog</a>
                         </li>
                     </ul>
                 </div>
@@ -75,6 +75,21 @@
                             <div class="author-description">
                                 <p>Posted by:
                                     <a><span>{{ $blog->user->name }} </span></a>
+                                    @if (Auth::check())
+                                    @if ($blog->user->id === Auth::user()->id)
+                                    <a href="{{ action('BlogController@edit', $blog->slug) }}">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a onclick="event.preventDefault();
+                                    document.getElementById('delete-blog-{{ $blog->slug }}').submit();">
+                                    <i class="fa fa-trash"></i></a>
+                                    <form id="delete-blog-{{ $blog->slug }}" action="{{ action('BlogController@destroy', $blog->slug) }}" method="post"
+                                        style="display: none;">
+                                        @method('DELETE')
+                                        @csrf
+                                    </form>
+                                    @endif
+                                    @endif
                                 </p>
                                 <span>{{ $blog->created_at->toFormattedDateString() }}</span>
                             </div>

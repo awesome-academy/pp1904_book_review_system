@@ -63,11 +63,12 @@
 <div class="skill-area mb-70">
     <div class="container">
         <div class="row">
-            <form action="/blogs" method="post" enctype="multipart/form-data">
+            <form action="/blogs/{{$blog->slug}}" method="post" enctype="multipart/form-data">
+            @method('PUT')
             @csrf
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <input name="title" type="text" class="form-control" placeholder="Title">
+                        <input name="title" type="text" value="{{$blog->title}}" class="form-control" placeholder="Title">
                     </div>
                     <div class="form-group">
                         <select name="category_id" class="form-control">
@@ -75,13 +76,16 @@
                                 <option value="0"> There is no category.</option>
                             @else
                                 @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                <option value="{{ $category->id }}"
+                                    @if($category->id == $blog->category_id)
+                                        selected="selected"
+                                    @endif >{{ $category->name }}</option>
                                 @endforeach
                             @endif
                         </select>
                     </div>
                     <div class="form-group">
-                        <input name="short_desc" type="text" class="form-control" placeholder="Short description">
+                        <input name="short_desc" type="text" value="{{$blog->short_desc}}" class="form-control" placeholder="Short description">
                     </div>
                     <div class="form-group">
                         <div class="custom-file">
@@ -90,10 +94,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <textarea name="content" id="demo1" ></textarea>
+                        <textarea name="content" id="demo1" >{{$blog->content}}</textarea>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary"> submit</button>
+                        <button type="submit" class="btn btn-primary"> Save</button>
+                        <button type="reset" class="btn btn-primary"> Cancel</button>
                     </div>
 
                 </div>

@@ -21,7 +21,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::with(['user', 'book'])->paginate(5);
+        $blogs = Blog::orderBy('created_at', 'desc')->with(['user', 'book'])->paginate(5);
 
         return view('blogs.index', compact('blogs'));
     }
@@ -73,9 +73,12 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        $blog = Blog::whereSlug($slug)->first();
+        $categories = Category::all();
+
+        return view('blogs.edit', compact('blog', 'categories'));
     }
 
     /**
@@ -85,9 +88,14 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        $blog = Blog::whereSlug($slug);
+        $blog->delete();
+        $user_id = Auth::user()->id;
+        $blog = Blog::createBlog($request, $user_id);
+
+        return redirect('/blogs');
     }
 
     /**
@@ -96,9 +104,12 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $blog = Blog::whereSlug($slug);
+        $blog->delete();
+
+        return redirect('/blogs');
     }
 
     public function category($slug)
@@ -121,6 +132,13 @@ class BlogController extends Controller
     public function search(Request $request)
     {
         $blogs = Blog::blogSearch($request)->paginate(5);
+
+        return view('blogs.index', compact('blogs'));
+    }
+
+    public function myBlog()
+    {
+        $blogs = Blog::whereUserId(Auth::user()->id)->orderBy('created_at', 'desc')->paginate(5);
 
         return view('blogs.index', compact('blogs'));
     }
