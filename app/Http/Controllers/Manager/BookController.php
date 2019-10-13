@@ -11,9 +11,16 @@ use App\Models\BookImage;
 use App\Models\Category;
 use App\Models\Author;
 use App\Models\PublishingCompany;
+use App\Repositories\Contracts\BookInterface as BookInterface;
 
 class BookController extends Controller
 {
+    protected $bookRepository;
+
+    public function __construct(BookInterface $book)
+    {
+        $this->bookRepository = $book;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +28,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::all();
+        $books = $this->bookRepository->getAll(20);
 
         return view('admin.books.index', compact('books'));
     }
@@ -49,7 +56,7 @@ class BookController extends Controller
     public function store(Request $request)
     {
 
-        $book = Book::createBook($request);
+        $book = $this->bookRepository->create($request);
         BookImage::addImage($book->id, $request->get('image-2'));
         BookImage::addImage($book->id, $request->get('image-3'));
         BookImage::addImage($book->id, $request->get('image-4'));
@@ -102,7 +109,7 @@ class BookController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        $book = Book::updateBook($request, $slug);
+        $book = $this->bookRepository->update($request, $slug);
         $book_id = Book::whereSlug($slug)->first()->id;
         BookImage::whereBookId($book_id)->delete();
         BookImage::addImage($book_id, $request->get('image-2'));
@@ -120,22 +127,15 @@ class BookController extends Controller
      */
     public function destroy($slug)
     {
-        $book = Book::whereSlug($slug);
-        $book->delete();
+        $this->bookRepository->delete($slug);
 
         return redirect('/manager/books');
     }
 
     public function storeImage(Request $request)
     {
-        $image = $request->image;
-        list($type, $image) = explode(';', $image);
-        list(, $image)      = explode(',', $image);
-        $image = base64_decode($image);
-        $image_name= time().'.png';
-        $path = public_path('img/book/'.$image_name);
-        file_put_contents($path, $image);
+        $response = $this->bookRepository->storeImage($request);
 
-        return response()->json(['image_name'=>'img/book/'.$image_name]);
+        return response()->json($response);
     }
 }

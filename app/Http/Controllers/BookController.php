@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\RateFormRequest;
-use App\Models\Blog;
 use App\Models\Book;
-use App\Models\Category;
 use App\Models\User;
-use App\Models\Rate;
 use App\Models\BookImage;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Repositories\Contracts\BookInterface as BookInterface;
 
 class BookController extends Controller
 {
+    protected $bookRepository;
+
+    public function __construct(BookInterface $book)
+    {
+        $this->bookRepository = $book;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +25,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::paginate(20);
+        $books = $this->bookRepository->getAll(20);
 
         return view('books.index', compact('books'));
     }
@@ -56,7 +59,7 @@ class BookController extends Controller
      */
     public function show($slug)
     {
-        $book = Book::whereSlug($slug)->firstOrFail();
+        $book = $this->bookRepository->findBySlug($slug);
         $comments = $book->comments()->where('parent_id', false)->with('user')->get();
         $count_comment = $book->comments()->count();
         $public_date = Carbon::parse($book->public_date)->toFormattedDateString();
@@ -109,24 +112,22 @@ class BookController extends Controller
 
     public function rate(RateFormRequest $request)
     {
-        $user_id = Auth::user()->id;
-        Rate::rate($request, $user_id);
-        Book::updateRateAverage($request);
+        $this->bookRepository->rate($request);
+        $this->bookRepository->updateRateAverage($request->get('post_id'));
 
-        return redirect()->back()->with('status', 'Your comment has been created!');
+        return redirect()->back();
     }
 
     public function category($slug)
     {
-        $category_id = Category::whereSlug($slug)->pluck('id');
-        $books = Book::whereIn('category_id', $category_id)->paginate(20);
+        $books = $this->bookRepository->findByCategory($slug);
 
         return view('books.index', compact('books'));
     }
 
     public function search(Request $request)
     {
-        $books = Book::where('title', 'like', "%".$request->get('search')."%")->paginate(20);
+        $books = $this->bookRepository->searchByTitle($request->get('search'));
 
         return view('books.index', compact('books'));
     }

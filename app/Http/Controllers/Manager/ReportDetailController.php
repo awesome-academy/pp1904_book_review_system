@@ -7,9 +7,16 @@ use App\Http\Controllers\Controller;
 use App\Models\ReportDetail;
 use App\Models\Comment;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\Contracts\CommentInterface as CommentInterface;
 
 class ReportDetailController extends Controller
 {
+    protected $commentRepository;
+
+    public function __construct(CommentInterface $comment)
+    {
+        $this->commentRepository = $comment;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -90,8 +97,7 @@ class ReportDetailController extends Controller
      */
     public function destroy($comment_id)
     {
-        $comment = Comment::whereId($comment_id);
-        $comment->delete();
+        $this->commentRepository->delete
         $report_details = ReportDetail::whereCommentId($comment_id);
         $report_details->delete();
 

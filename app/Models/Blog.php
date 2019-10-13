@@ -45,40 +45,4 @@ class Blog extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    public function scopeUpdateRateAverage($query, $request)
-    {
-        $blog = Blog::whereId($request->get('post_id'))->firstOrFail();
-        $rate_average = $blog->rates()->avg('rate_point');
-        $user_rate_total = $blog->rates()->count();
-
-        return $query->whereId($request->get('post_id'))->update([
-            'rate_average' => isset($rate_average) ? $rate_average : 0,
-            'user_rate_total' => isset($user_rate_total) ? $user_rate_total : 0,
-        ]);
-    }
-
-    public function scopeBlogSearch($query, $request)
-    {
-        return $query->where('title', 'like', "%".$request->get('search')."%")->with(['user', 'book']);
-    }
-
-    public function scopeCreateBlog($query, $request, $user_id)
-    {
-        $image = $request->file('image');
-        $name = Str::slug($request->get('title'), '-').'_'.time();
-        $folder = 'img/blog/';
-        $path = $folder . $name. '.' . $image->getClientOriginalExtension();
-        $request->file('image')->move($folder, $name.'.'.$image->getClientOriginalExtension());
-
-        return $query->create([
-            'user_id' => $user_id,
-            'slug' => Str::slug($request->get('title'), '-'),
-            'title' => $request->get('title'),
-            'content' => $request->get('content'),
-            'image' => $path,
-            'short_desc' => $request->get('short_desc'),
-            'category_id' => $request->get('category_id'),
-        ]);
-    }
 }

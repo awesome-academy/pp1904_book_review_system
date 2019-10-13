@@ -28,8 +28,8 @@ class Book extends Model
         'detail',
         'image',
         'public_date',
-        'author',
-        'publishing_company',
+        'author_id',
+        'publishing_company_id',
         'rate',
     ];
 
@@ -76,45 +76,5 @@ class Book extends Model
     public function favorites()
     {
         return $this->hasMany(Favorite::class, 'book_id');
-    }
-
-    public function scopeUpdateRateAverage($query, $request)
-    {
-        $book = Book::whereId($request->get('post_id'))->firstOrFail();
-        $rate_average = $book->rates()->avg('rate_point');
-        $user_rate_total = $book->rates()->count();
-
-        return $query->whereId($request->get('post_id'))->update([
-            'rate_average' => isset($rate_average) ? $rate_average : 0,
-            'user_rate_total' => isset($user_rate_total) ? $user_rate_total : 0,
-        ]);
-    }
-
-    public function scopeCreateBook($query, $request)
-    {
-        return $query->create([
-            'category_id' => $request->get('category_id'),
-            'title' => $request->get('title'),
-            'slug' => Str::slug($request->get('title'), '-'),
-            'detail' => $request->get('detail'),
-            'image' => $request->get('image-1'),
-            'public_date' => Carbon::parse($request->get('public_date'))->format('Y-m-d'),
-            'author_id' => $request->get('author_id'),
-            'publishing_company_id' => $request->get('publishing_company_id'),
-        ]);
-    }
-
-    public function scopeUpdateBook($query, $request, $slug)
-    {
-        return $query->whereSlug($slug)->update([
-            'category_id' => $request->get('category_id'),
-            'title' => $request->get('title'),
-            'slug' => Str::slug($request->get('title'), '-'),
-            'detail' => $request->get('detail'),
-            'image' => $request->get('image-1'),
-            'public_date' => Carbon::parse($request->get('public_date'))->format('Y-m-d'),
-            'author_id' => $request->get('author_id'),
-            'publishing_company_id' => $request->get('publishing_company_id'),
-        ]);
     }
 }
