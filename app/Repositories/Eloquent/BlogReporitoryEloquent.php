@@ -93,7 +93,7 @@ class BlogRepositoryEloquent implements BlogInterface
 
     public function searchByTitle($key_word)
     {
-        return BLog::where('title', 'like', "%".$key_word."%")->with(['user', 'book'])->paginate(5);
+        return BLog::search($key_word)->with(['user', 'book'])->paginate(5);
     }
 
     public function getMyBlog()

@@ -10,10 +10,11 @@ use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Blog extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Searchable;
 
     protected $fillable = [
         'user_id',
@@ -44,5 +45,12 @@ class Blog extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function toSearchableArray()
+    {
+      $array = $this->toArray();
+
+      return array('id' => $array['id'],'title' => $array['title']);
     }
 }

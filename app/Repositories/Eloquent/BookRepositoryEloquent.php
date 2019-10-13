@@ -93,7 +93,7 @@ class BookRepositoryEloquent implements BookInterface
 
     public function searchByTitle($key_word)
     {
-        return Book::where('title', 'like', "%".$key_word."%")->paginate(20);
+        return Book::search($key_word)->paginate(20);
     }
 
     public function storeImage($request)
