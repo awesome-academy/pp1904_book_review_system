@@ -302,14 +302,7 @@
                                     </div>
                                 </div>
                             </li>
-                            @php
-                                $comment_childs = App\Models\Comment::where([
-                                        ['parent_id', $comment->id],
-                                        ['post_type', 'App\Models\Blog'],
-                                        ['post_id', $comment->post_id]
-                                    ])->with('user')->get();
-                            @endphp
-                            @foreach ($comment_childs as $comment_child)
+                            @foreach ($comment->child()->get() as $comment_child)
                             <li>
                                 <div class="public-comment public-comment-2">
                                     <div class="comment-img">

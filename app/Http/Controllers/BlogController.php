@@ -64,8 +64,8 @@ class BlogController extends Controller
     public function show($slug)
     {
         $blog = $this->blogRepository->findBySlug($slug);
-        $comments = $blog->comments()->where('parent_id', false)->with('user')->get();
-        $count_comment = $blog->comments()->count();
+        $comments = $this->blogRepository->getComment($slug);
+        $count_comment = $comments->count();
 
         return view('blogs.show', compact('blog', 'comments', 'count_comment'));
     }
@@ -93,7 +93,7 @@ class BlogController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        $this->blogRepository->delete($slug);
+        $this->blogRepository->deleteBySlug($slug);
         $this->blogRepository->create($request);
 
         return redirect('/blogs');
@@ -107,7 +107,7 @@ class BlogController extends Controller
      */
     public function destroy($slug)
     {
-        $this->blogRepository->delete($slug);
+        $this->blogRepository->deleteBySlug($slug);
 
         return redirect('/blogs');
     }

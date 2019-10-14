@@ -60,8 +60,8 @@ class BookController extends Controller
     public function show($slug)
     {
         $book = $this->bookRepository->findBySlug($slug);
-        $comments = $book->comments()->where('parent_id', false)->with('user')->get();
-        $count_comment = $book->comments()->count();
+        $comments = $this->bookRepository->getComment($slug);
+        $count_comment = $comments->count();
         $public_date = Carbon::parse($book->public_date)->toFormattedDateString();
         $book_images = BookImage::whereBookId($book->id)->get();
 

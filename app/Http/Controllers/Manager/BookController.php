@@ -28,7 +28,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = $this->bookRepository->getAll(20);
+        $books = $this->bookRepository->getAll();
 
         return view('admin.books.index', compact('books'));
     }
@@ -55,7 +55,6 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-
         $book = $this->bookRepository->create($request);
         BookImage::addImage($book->id, $request->get('image-2'));
         BookImage::addImage($book->id, $request->get('image-3'));
@@ -83,7 +82,7 @@ class BookController extends Controller
      */
     public function edit($slug)
     {
-        $book = Book::whereSlug($slug)->firstOrFail();
+        $book = $this->bookRepository->findBySlug($slug);
         $categories = Category::all();
         $authors = Author::all();
         $publishing_companies = PublishingCompany::all();
@@ -110,7 +109,7 @@ class BookController extends Controller
     public function update(Request $request, $slug)
     {
         $book = $this->bookRepository->update($request, $slug);
-        $book_id = Book::whereSlug($slug)->first()->id;
+        $book_id = $this->bookRepository->findBySlug($slug)->id;
         BookImage::whereBookId($book_id)->delete();
         BookImage::addImage($book_id, $request->get('image-2'));
         BookImage::addImage($book_id, $request->get('image-3'));
@@ -127,7 +126,7 @@ class BookController extends Controller
      */
     public function destroy($slug)
     {
-        $this->bookRepository->delete($slug);
+        $this->bookRepository->deleteBySlug($slug);
 
         return redirect('/manager/books');
     }

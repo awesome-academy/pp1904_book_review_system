@@ -6,11 +6,11 @@ interface BlogInterface {
 
     public function getAll();
 
-    public function find($id);
+    public function findById($id);
 
     public function findBySlug($slug);
 
-    public function delete($slug);
+    public function deleteBySlug($slug);
 
     public function create($request);
 
@@ -26,4 +26,5 @@ interface BlogInterface {
 
     public function getMyBlog();
 
+    public function getComment($slug);
 }

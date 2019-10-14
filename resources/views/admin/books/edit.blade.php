@@ -56,7 +56,7 @@
             <div class="form-group m-form__group row">
                 <label class="col-form-label col-lg-3 col-sm-12" for="exampleInputPassword1">Author</label>
                 <div class="col-lg-6 col-md-9 col-sm-12">
-                    <select name="publishing_company" class="form-control m-input" id="exampleSelect1">
+                    <select name="author_id" class="form-control m-input" id="exampleSelect1">
                         @if ($authors->isEmpty())
                             <option value="0"> There is no author.</option>
                         @else
@@ -87,7 +87,7 @@
             <div class="form-group m-form__group row">
                 <label class="col-form-label col-lg-3 col-sm-12" for="exampleSelect1">Publishing Company</label>
                 <div class="col-lg-6 col-md-9 col-sm-12">
-                    <select name="publishing_company" class="form-control m-input" id="exampleSelect1">
+                    <select name="publishing_company_id" class="form-control m-input" id="exampleSelect1">
                         @if ($publishing_companies->isEmpty())
                             <option value="0"> There is no publishing company.</option>
                         @else

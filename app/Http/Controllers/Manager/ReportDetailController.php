@@ -4,18 +4,17 @@ namespace App\Http\Controllers\Manager;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\ReportDetail;
-use App\Models\Comment;
-use Illuminate\Support\Facades\DB;
 use App\Repositories\Contracts\CommentInterface as CommentInterface;
+use App\Repositories\Contracts\ReportInterface as ReportInterface;
 
 class ReportDetailController extends Controller
 {
     protected $commentRepository;
 
-    public function __construct(CommentInterface $comment)
+    public function __construct(CommentInterface $comment, ReportInterface $report)
     {
         $this->commentRepository = $comment;
+        $this->reportRepository = $report;
     }
     /**
      * Display a listing of the resource.
@@ -24,10 +23,7 @@ class ReportDetailController extends Controller
      */
     public function index()
     {
-        $report_details = ReportDetail::whereNull('deleted_at')
-                ->groupBy('comment_id')
-                ->select('*', DB::raw('count(comment_id) as total'))
-                ->with(['report', 'user', 'comment'])->get();
+        $report_details = $this->reportRepository->getAll();
 
         return view('admin.reports.index', compact('report_details'));
     }
@@ -61,7 +57,7 @@ class ReportDetailController extends Controller
      */
     public function show($comment_id)
     {
-        $report_details = ReportDetail::whereCommentId($comment_id)->with(['report', 'user', 'comment'])->get();
+        $report_details = $this->reportRepository->show($comment_id);
 
         return view('admin.reports.show', compact('report_details'));
     }
@@ -97,9 +93,7 @@ class ReportDetailController extends Controller
      */
     public function destroy($comment_id)
     {
-        $this->commentRepository->delete
-        $report_details = ReportDetail::whereCommentId($comment_id);
-        $report_details->delete();
+        $report_details = $this->reportRepository->deleteByCommentId($comment_id);
 
         return redirect('/manager/reportdetails');
     }
