@@ -36,21 +36,13 @@ class Comment extends Model
         return $this->hasMany(ReportDetail::class, 'comment_id');
     }
 
-    public function scopeCreateComment($query, $request, $user_id)
+    public function parent()
     {
-        return $query->create([
-            'post_id' => $request->get('post_id'),
-            'content' => $request->get('content'),
-            'post_type' => $request->get('post_type'),
-            'user_id' => $user_id,
-            'parent_id' => isset($request->parent_id) ? $request->get('parent_id') : '0',
-        ]);
+        return $this->belongsTo(Comment::class, 'parent_id');
     }
 
-    public function scopeEditComment($query, $request)
+    public function child()
     {
-        return $query->whereId($request->get('comment_id'))->update([
-            'content' => $request->get('content'),
-        ]);
+        return $this->hasMany(Comment::class, 'parent_id');
     }
 }

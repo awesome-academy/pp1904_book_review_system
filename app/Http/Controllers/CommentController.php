@@ -3,41 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentFormRequest;
-use App\Models\Comment;
-use App\Models\ReportDetail;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
+use App\Repositories\Contracts\CommentInterface as CommentInterface;
 
 class CommentController extends Controller
 {
+    protected $commentRepository;
+
+    public function __construct(CommentInterface $comment)
+    {
+        $this->commentRepository = $comment;
+    }
+
     public function newComment(CommentFormRequest $request)
     {
-        $user_id = Auth::user()->id;
-        Comment::createComment($request, $user_id);
+        $this->commentRepository->create($request);
 
         return redirect()->back()->with('status', 'Your comment has been created!');
     }
 
     public function editComment(CommentFormRequest $request)
     {
-        Comment::editComment($request);
+        $this->commentRepository->update($request);
 
         return redirect()->back();
     }
 
     public function deleteComment(Request $request)
     {
-        $comment = Comment::whereId($request->get('comment_id'));
-        $comment->delete();
+        $this->commentRepository->delete($request->get('comment_id'));
 
         return redirect()->back();
     }
 
     public function reportComment(Request $request)
     {
-        $user_id = Auth::user()->id;
-        ReportDetail::createReport($request, $user_id);
+        $this->commentRepository->report($request);
 
         return redirect()->back();
     }

@@ -6,14 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RateFormRequest;
 use App\Http\Requests\CreateBlogFormRequest;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Blog;
-use App\Models\Book;
 use App\Models\Category;
-use App\Models\User;
-use App\Models\Rate;
+use App\Models\Blog;
+use App\Repositories\Contracts\BlogInterface as BlogInterface;
 
 class BlogController extends Controller
 {
+    protected $blogRepository;
+
+    public function __construct(BlogInterface $blog)
+    {
+        $this->blogRepository = $blog;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +25,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::orderBy('created_at', 'desc')->with(['user', 'book'])->paginate(5);
+        $blogs = $this->blogRepository->getAll();
 
         return view('blogs.index', compact('blogs'));
     }
@@ -46,8 +50,7 @@ class BlogController extends Controller
      */
     public function store(CreateBlogFormRequest $request)
     {
-        $user_id = Auth::user()->id;
-        $blog = Blog::createBlog($request, $user_id);
+        $this->blogRepository->create($request);
 
         return redirect()->back()->with('status', 'Your blog has been created!');
     }
@@ -60,7 +63,7 @@ class BlogController extends Controller
      */
     public function show($slug)
     {
-        $blog = Blog::whereSlug($slug)->firstOrFail();
+        $blog = $this->blogRepository->findBySlug($slug);
         $comments = $blog->comments()->where('parent_id', false)->with('user')->get();
         $count_comment = $blog->comments()->count();
 
@@ -75,7 +78,7 @@ class BlogController extends Controller
      */
     public function edit($slug)
     {
-        $blog = Blog::whereSlug($slug)->first();
+        $blog = $this->blogRepository->findBySlug($slug);
         $categories = Category::all();
 
         return view('blogs.edit', compact('blog', 'categories'));
@@ -90,10 +93,8 @@ class BlogController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        $blog = Blog::whereSlug($slug);
-        $blog->delete();
-        $user_id = Auth::user()->id;
-        $blog = Blog::createBlog($request, $user_id);
+        $this->blogRepository->delete($slug);
+        $this->blogRepository->create($request);
 
         return redirect('/blogs');
     }
@@ -106,39 +107,36 @@ class BlogController extends Controller
      */
     public function destroy($slug)
     {
-        $blog = Blog::whereSlug($slug);
-        $blog->delete();
+        $this->blogRepository->delete($slug);
 
         return redirect('/blogs');
     }
 
     public function category($slug)
     {
-        $category_id = Category::whereSlug($slug)->pluck('id');
-        $blogs = Blog::whereIn('category_id', $category_id)->with(['user', 'book'])->paginate(5);
+        $blogs = $this->blogRepository->findByCategory($slug);
 
         return view('blogs.index', compact('blogs'));
     }
 
     public function rate(RateFormRequest $request)
     {
-        $user_id = Auth::user()->id;
-        Rate::rate($request, $user_id);
-        Blog::updateRateAverage($request);
+        $this->blogRepository->rate($request);
+        $this->blogRepository->updateRateAverage($request->get('post_id'));
 
-        return redirect()->back()->with('status', 'Your comment has been created!');
+        return redirect()->back();
     }
 
     public function search(Request $request)
     {
-        $blogs = Blog::blogSearch($request)->paginate(5);
+        $blogs = $this->blogRepository->searchByTitle($request->get('search'));
 
         return view('blogs.index', compact('blogs'));
     }
 
     public function myBlog()
     {
-        $blogs = Blog::whereUserId(Auth::user()->id)->orderBy('created_at', 'desc')->paginate(5);
+        $blogs = $this->blogRepository->getMyBlog();
 
         return view('blogs.index', compact('blogs'));
     }

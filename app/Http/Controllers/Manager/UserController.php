@@ -6,9 +6,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\Contracts\UserInterface as UserInterface;
 
 class UserController extends Controller
 {
+    protected $userRepository;
+
+    public function __construct(UserInterface $user)
+    {
+        $this->userRepository = $user;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('admin', false)->get();
+        $users = $this->userRepository->getAll();
 
         return view('admin.users.index', compact('users'));
     }
@@ -39,11 +46,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        User::create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
-        ]);
+        $this->userRepository->create($request);
 
         return redirect()->back();
     }
@@ -67,7 +70,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::whereId($id)->firstOrFail();
+        $user = $this->userRepository->find($id);
 
         return view('admin.users.edit', compact('user'));
     }
@@ -81,11 +84,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        User::whereId($id)->update([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
-        ]);
+        $this->userRepository->update($request, $id);
 
         return redirect('/manager/users');
     }
@@ -98,8 +97,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::whereId($id);
-        $user->delete();
+        $this->userRepository->delete($id);
 
         return redirect('/manager/users');
     }

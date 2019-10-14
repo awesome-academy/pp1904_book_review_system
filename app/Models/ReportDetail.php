@@ -33,14 +33,4 @@ class ReportDetail extends Model
     {
         return $this->belongsTo(Comment::class);
     }
-
-    public function scopeCreateReport($query, $request, $user_id)
-    {
-        return $query->create([
-            'user_id' => $user_id,
-            'report_id' => $request->get('report_id'),
-            'content' => $request->get('content'),
-            'comment_id' => $request->get('comment_id'),
-        ]);
-    }
 }
