@@ -14,10 +14,11 @@ use App\Models\PublishingCompany;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Book extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Searchable;
 
     protected $fillable = [
         'title',
@@ -76,5 +77,12 @@ class Book extends Model
     public function favorites()
     {
         return $this->hasMany(Favorite::class, 'book_id');
+    }
+
+    public function toSearchableArray()
+    {
+      $array = $this->toArray();
+
+      return array('id' => $array['id'],'title' => $array['title']);
     }
 }
