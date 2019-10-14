@@ -6,11 +6,11 @@ interface BookInterface {
 
     public function getAll();
 
-    public function find($id);
+    public function findById($id);
 
     public function findBySlug($slug);
 
-    public function delete($id);
+    public function deleteBySlug($slug);
 
     public function create($request);
 
@@ -26,4 +26,5 @@ interface BookInterface {
 
     public function storeImage($request);
 
+    public function getComment($slug);
 }

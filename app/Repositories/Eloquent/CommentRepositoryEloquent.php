@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Repositories\Contracts\CommentInterface as CommentInterface;
 use App\Models\Comment;
+use App\Models\ReportDetail;
 use Illuminate\Support\Facades\Auth;
 
 class CommentRepositoryEloquent implements CommentInterface
@@ -32,14 +33,14 @@ class CommentRepositoryEloquent implements CommentInterface
 
     public function update($request)
     {
-        return $query->whereId($request->get('comment_id'))->update([
+        return Comment::whereId($request->get('comment_id'))->update([
             'content' => $request->get('content'),
         ]);
     }
 
     public function report($request)
     {
-        return $query->create([
+        return ReportDetail::create([
             'user_id' => Auth::user()->id,
             'report_id' => $request->get('report_id'),
             'content' => $request->get('content'),

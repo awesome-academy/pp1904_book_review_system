@@ -15,7 +15,7 @@ class BlogRepositoryEloquent implements BlogInterface
         return Blog::orderBy('created_at', 'desc')->with(['user', 'book'])->paginate(5);
     }
 
-    public function find($id)
+    public function findById($id)
     {
         return Blog::whereId($id)->firstOrFail();
     }
@@ -25,7 +25,7 @@ class BlogRepositoryEloquent implements BlogInterface
         return Blog::whereSlug($slug)->firstOrFail();
     }
 
-    public function delete($slug)
+    public function deleteBySlug($slug)
     {
         return Blog::whereSlug($id)->delete();
     }
@@ -99,5 +99,10 @@ class BlogRepositoryEloquent implements BlogInterface
     public function getMyBlog()
     {
         return Blog::whereUserId(Auth::user()->id)->orderBy('created_at', 'desc')->paginate(5);
+    }
+
+    public function getComment($slug)
+    {
+        return $this->findBySlug($slug)->comments()->where('parent_id', false)->with('child')->get();
     }
 }

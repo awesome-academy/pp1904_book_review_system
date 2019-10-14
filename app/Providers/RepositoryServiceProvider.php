@@ -22,6 +22,10 @@ class RepositoryServiceProvider extends ServiceProvider
         'comment' => [
             \App\Repositories\Contracts\CommentInterface::class,
             \App\Repositories\Eloquent\CommentRepositoryEloquent::class,
+        ],
+        'report' => [
+            \App\Repositories\Contracts\ReportInterface::class,
+            \App\Repositories\Eloquent\ReportRepositoryEloquent::class,
         ]
     ];
     /**

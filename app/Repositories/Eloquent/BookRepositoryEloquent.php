@@ -7,16 +7,21 @@ use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 
 class BookRepositoryEloquent implements BookInterface
 {
-    public function getAll($paginate = 20)
+    public function getAll($paginate = null)
     {
+        if (is_null($paginate)) {
+            return Book::all();
+        }
+
         return Book::paginate($paginate);
     }
 
-    public function find($id)
+    public function findById($id)
     {
         return Book::whereId($id)->firstOrFail();
     }
@@ -26,7 +31,7 @@ class BookRepositoryEloquent implements BookInterface
         return Book::whereSlug($slug)->firstOrFail();
     }
 
-    public function delete($slug)
+    public function deleteBySlug($slug)
     {
         return Book::whereSlug($slug)->delete();
     }
@@ -107,5 +112,10 @@ class BookRepositoryEloquent implements BookInterface
         file_put_contents($path, $image);
 
         return ['image_name'=>'img/book/'.$image_name];
+    }
+
+    public function getComment($slug)
+    {
+        return $this->findBySlug($slug)->comments()->where('parent_id', false)->with('child')->get();
     }
 }
