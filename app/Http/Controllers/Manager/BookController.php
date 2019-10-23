@@ -88,7 +88,7 @@ class BookController extends Controller
                 'categories',
                 'authors',
                 'publishing_companies',
-                'book_images',
+                'book_images'
             )
         );
     }
